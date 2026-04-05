@@ -1,7 +1,7 @@
 <script>
     import { userLibrary, masterGameList, toastMessage } from '../store.js';
     import Modal from '../components/Modal.svelte';
-    import { Plus, Trash2, ChartPie, UsersIcon, TagIcon } from 'lucide-svelte';
+    import { Plus, Trash2, PieChart, Users, Tag } from 'lucide-svelte';
 
     let showModal = false;
     let sortBy = 'name-asc';
@@ -81,17 +81,17 @@
             <!-- Dashboard Stats Widget -->
             <div class="grid grid-cols-3 gap-4 mb-6">
                 <div class="bg-card p-4 rounded-xl border border-border/20 shadow-sm flex flex-col gap-1 items-center justify-center">
-                    <ChartPie size=20 class="text-[var(--accent)] mb-1" />
+                    <PieChart size=20 class="text-[var(--accent)] mb-1" />
                     <span class="text-[10px] font-black uppercase tracking-wider opacity-60">Total Games</span>
                     <span class="text-2xl font-black text-[var(--accent)]">{totalGames}</span>
                 </div>
                 <div class="bg-card p-4 rounded-xl border border-border/20 shadow-sm flex flex-col gap-1 items-center justify-center">
-                    <UsersIcon size=20 class="text-[var(--accent)] mb-1" />
+                    <Users size=20 class="text-[var(--accent)] mb-1" />
                     <span class="text-[10px] font-black uppercase tracking-wider opacity-60">Max Players</span>
                     <span class="text-2xl font-black text-[var(--accent)]">{maxCapacity}</span>
                 </div>
                 <div class="bg-card p-4 rounded-xl border border-border/20 shadow-sm flex flex-col gap-1 items-center justify-center overflow-hidden">
-                    <TagIcon size=20 class="text-[var(--accent)] mb-1" />
+                    <Tag size=20 class="text-[var(--accent)] mb-1" />
                     <span class="text-[10px] font-black uppercase tracking-wider opacity-60">Top Genre</span>
                     <span class="text-lg font-black text-[var(--accent)] truncate w-full text-center px-1">{mostCommonGenre}</span>
                 </div>
