@@ -1,10 +1,10 @@
 <script>
-    import { userLibrary } from '../store.js';
+    import { userLibrary, tonightsRotation } from '../store.js';
     import FilterBar from '../components/FilterBar.svelte';
     import GridView from '../components/display/GridView.svelte';
     import ListView from '../components/display/ListView.svelte';
     import SwipeView from '../components/display/SwipeView.svelte';
-    import { LayoutGrid, List, GalleryVerticalEnd } from 'lucide-svelte';
+    import { LayoutGrid, List, GalleryVerticalEnd, Sparkles, X, Check } from 'lucide-svelte';
 
     let selectedPlayerCount = 4;
     let selectedLocation = 'All';
@@ -21,10 +21,38 @@
         
         return matchPlayers && matchLocation && matchGenre && matchFav;
     });
+
+    function removeFromRotation(gameId) {
+        $tonightsRotation = $tonightsRotation.filter(g => g.id !== gameId);
+    }
 </script>
 
-<div class="h-full flex flex-col p-6 w-full max-w-7xl mx-auto gap-6 transition-colors duration-300">
+<div class="h-full flex flex-col p-4 md:p-6 w-full max-w-7xl mx-auto gap-6 transition-colors duration-300">
     
+    <!-- Tonight's Rotation Banner -->
+    {#if $tonightsRotation.length > 0}
+        <div class="w-full bg-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
+            <div class="absolute -right-10 -top-10 opacity-10 text-[var(--accent)] transform rotate-12 transition-transform group-hover:rotate-45 duration-700">
+                <Sparkles size=120 />
+            </div>
+            
+            <h2 class="text-lg font-black text-[var(--accent)] flex items-center gap-2 mb-3 relative z-10">
+                <Sparkles size=20 /> Tonight's Game Rotation
+            </h2>
+            <div class="flex flex-wrap gap-3 relative z-10">
+                {#each $tonightsRotation as tGame}
+                    <div class="flex items-center gap-3 bg-card border border-[var(--accent)]/30 pr-2 rounded-full overflow-hidden shadow-sm hover:border-[var(--accent)] hover:shadow-md transition-all">
+                        <img src={tGame.imageUrl} alt={tGame.name} class="w-10 h-10 object-cover" />
+                        <span class="font-bold text-sm select-none">{tGame.name}</span>
+                        <button class="text-text/40 hover:text-red-500 hover:bg-red-500/10 p-1.5 rounded-full transition-colors" on:click={() => removeFromRotation(tGame.id)} title="Remove from rotation">
+                            <X size=14 strokeWidth=3 />
+                        </button>
+                    </div>
+                {/each}
+            </div>
+        </div>
+    {/if}
+
     <header class="flex justify-between items-end pb-4 border-b border-border/10 border-text/20">
         <div>
             <h1 class="text-4xl font-bold mb-2">My Library</h1>

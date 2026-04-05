@@ -4,13 +4,14 @@
     import Sidebar from './components/Sidebar.svelte';
     import Toast from './components/Toast.svelte';
     import GameDetailsModal from './components/GameDetailsModal.svelte';
+    import DecideGame from './views/DecideGame.svelte';
     import Home from './views/Home.svelte';
     import Manager from './views/Manager.svelte';
     import Settings from './views/Settings.svelte';
     import { Menu } from 'lucide-svelte';
     
     // Core Application State
-    let activeRoute = 'home'; // 'home' | 'manager' | 'settings'
+    let activeRoute = 'home'; // 'home' | 'manager' | 'settings' | 'decide'
     let isMobileOpen = false; // Controls off-canvas sidebar
     
     // Web Programming Lab Requirement: Local Storage Theming
@@ -63,6 +64,8 @@
                     <Manager />
                 {:else if activeRoute === 'settings'}
                     <Settings />
+                {:else if activeRoute === 'decide'}
+                    <DecideGame onComplete={() => activeRoute = 'home'} onCancel={() => activeRoute = 'home'} />
                 {/if}
             </div>
         {/key}

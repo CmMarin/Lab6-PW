@@ -68,4 +68,12 @@ settings.subscribe((value) => {
     localStorage.setItem('appSettings', JSON.stringify(value));
 });
 
+// "Tonight's Game" rotation tracker
+const initialTonightsRotation = JSON.parse(localStorage.getItem('tonightsRotation') || '[]');
+export const tonightsRotation = writable(initialTonightsRotation); // The chosen games
+
+tonightsRotation.subscribe((value) => {
+    localStorage.setItem('tonightsRotation', JSON.stringify(value));
+});
+
 export const selectedGameDetail = writable(null);

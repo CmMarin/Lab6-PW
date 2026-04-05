@@ -24,7 +24,6 @@
     }
 
     let swiperInstance;
-    let cardTinderStyles = {}; // Tracks dynamic swipe directions to color cards
 
     onMount(() => {
         if (games.length > 0) {
@@ -34,18 +33,6 @@
                 grabCursor: true,
                 centeredSlides: true,
                 slidesPerView: 'auto',
-                on: {
-                    sliderMove: function () {
-                        const swiper = this;
-                        // Provide subtle a11y UI feedback based on direction (Tinder style tinting)
-                        const currentTranslate = swiper.translate;
-                        // Custom logic for indicating right vs left swipe
-                    },
-                    slideChange: function() {
-                        // Resets visual when released
-                        cardTinderStyles = {};
-                    }
-                }
             });
         }
         
@@ -54,16 +41,6 @@
         }
     });
 
-    function manualSwipe(direction) {
-        if (!swiperInstance) return;
-        if (direction === 'left') {
-            swiperInstance.slideNext();
-            $toastMessage = "Skipped!";
-        } else {
-            swiperInstance.slidePrev();
-            $toastMessage = "Added to Tonight's rotation!";
-        }
-    }
 </script>
 
 <div class="h-full w-full flex items-center justify-center p-8 relative min-h-[500px]">
@@ -131,30 +108,9 @@
             </div>
         </div>
 
-        <!-- Swipe Action Buttons (Tinder Style) -->
-        <div class="flex items-center justify-center gap-6 mt-6 w-full max-w-[400px]">
-            <button 
-                class="w-14 h-14 rounded-full bg-background border-2 border-red-500/50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-md hover:scale-110 active:scale-95 focus:ring-4 ring-red-500/20"
-                on:click={() => manualSwipe('left')}
-                aria-label="Skip this game"
-                title="Skip"
-            >
-                <X size=32 strokeWidth=3 />
-            </button>
-
-            <button 
-                class="w-16 h-16 rounded-full bg-background border-2 border-green-500/50 text-green-500 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all shadow-lg hover:scale-110 active:scale-95 focus:ring-4 ring-green-500/20"
-                on:click={() => manualSwipe('right')}
-                aria-label="Play this game tonight"
-                title="Play Tonight"
-            >
-                <Check size=36 strokeWidth=3 />
-            </button>
-        </div>
-
         <!-- Swipe Instructions -->
-        <div class="absolute bottom-2 text-center w-full uppercase text-[10px] font-bold tracking-widest opacity-40 pointer-events-none mt-2">
-            Swipe or use buttons
+        <div class="absolute bottom-2 text-center w-full uppercase text-xs font-bold tracking-widest opacity-40 pointer-events-none mt-2">
+            Swipe left or right to browse
         </div>
         </div>
     {/if}

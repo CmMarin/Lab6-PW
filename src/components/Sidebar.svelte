@@ -1,5 +1,5 @@
 <script>
-    import { Settings, Home, LayoutList, Palette, ChevronLeft, ChevronRight, X } from 'lucide-svelte';
+    import { Settings, Home, LayoutList, Palette, ChevronLeft, ChevronRight, X, Sparkles } from 'lucide-svelte';
     import { toastMessage } from '../store.js';
     export let activeRoute = 'home';
     export let isMobileOpen = false;
@@ -67,6 +67,10 @@
         </div>
         
         <nav class="p-2 flex flex-col gap-2 mt-4">
+            <button class="w-full flex items-center gap-4 p-3 rounded-lg transition-colors hover:bg-[var(--accent)] hover:text-white group {activeRoute === 'decide' ? 'bg-[var(--accent)] text-white shadow-lg' : ''}" on:click={() => navigate('decide')}>
+                <Sparkles size=24 class="flex-shrink-0 mx-auto md:mx-0 {isCollapsed ? 'md:mx-auto' : ''}" />
+                <span class="font-bold {isCollapsed ? 'md:hidden' : ''}">Find Tonight's Game</span>
+            </button>
             <button class="w-full flex items-center gap-4 p-3 rounded-lg transition-colors hover:bg-[var(--accent)] hover:text-white group {activeRoute === 'home' ? 'bg-[var(--accent)] text-white' : ''}" on:click={() => navigate('home')}>
                 <Home size=24 class="flex-shrink-0 mx-auto md:mx-0 {isCollapsed ? 'md:mx-auto' : ''}" />
                 <span class="font-medium {isCollapsed ? 'md:hidden' : ''}">Home Feed</span>
