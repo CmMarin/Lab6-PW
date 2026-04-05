@@ -9,11 +9,11 @@
     <!-- Tiled Pattern Background Elements (Slight blur, faint transparency) -->
     <div class="absolute inset-0 z-[-1] opacity-[0.05] blur-[2px] flex flex-wrap gap-20 p-10 justify-around items-center overflow-hidden">
         {#if $activeTheme === 'light'}
-            {#each Array(32) as _} <Gamepad2 size={80} strokeWidth={2} class="text-black"/> <Dices size={80} strokeWidth={2} class="text-black"/> {/each}
+            {#each Array(32) as _} <Gamepad2 size={80} strokeWidth={2} class="text-[var(--theme-black,black)]"/> <Dices size={80} strokeWidth={2} class="text-[var(--theme-black,black)]"/> {/each}
         {:else if $activeTheme === 'dark'}
             {#each Array(32) as _} <Coins size={80} color="gold" strokeWidth={2}/> <Skull size={80} color="white" strokeWidth={2}/> {/each}
         {:else if $activeTheme === 'tavern'}
-            {#each Array(32) as _} <Swords size={80} strokeWidth={2} class="text-black"/> <Beer size={80} strokeWidth={2} class="text-black"/> {/each}
+            {#each Array(32) as _} <Swords size={80} strokeWidth={2} class="text-[var(--theme-black,black)]"/> <Beer size={80} strokeWidth={2} class="text-[var(--theme-black,black)]"/> {/each}
         {:else if $activeTheme === 'neon'}
             {#each Array(32) as _} <Zap size={80} strokeWidth={2} color="#00ffff"/> <Ghost size={80} strokeWidth={2} color="#ff00ff"/> {/each}
         {/if}
@@ -50,7 +50,7 @@
             </div>
 
             <div class="absolute bottom-[16%] right-[-20%] transform rotate-12" in:fade={{duration: 400}}>
-                <div class="bg-white p-8 border-[8px] border-black rounded-full drop-shadow-[12px_12px_0_var(--theme-black)]">
+                <div class="bg-[var(--accent)] p-8 border-[8px] border-[var(--border-color)] rounded-full drop-shadow-[12px_12px_0_var(--theme-black)]">
                     <Coins size={110} strokeWidth={2} color="var(--theme-black)" />
                 </div>
             </div>

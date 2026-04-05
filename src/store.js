@@ -206,6 +206,7 @@ export const selectedGameDetail = writable(null);
 
 export const activeTheme = writable(localStorage.getItem('theme') || 'light');
 
+export const setupAssistantGame = writable(null);
 export const boardBuddyGame = writable(null);
 export const boardBuddyPlayers = writable([]);
 export const hallOfFame = writable(JSON.parse(localStorage.getItem('hallOfFame') || '[]'));

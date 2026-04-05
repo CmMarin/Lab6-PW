@@ -4,6 +4,7 @@
     import Sidebar from './components/Sidebar.svelte';
     import Toast from './components/Toast.svelte';
     import GameDetailsModal from './components/GameDetailsModal.svelte';
+    import TableSetupAssistant from './components/TableSetupAssistant.svelte';
     import BoardBuddy from './components/BoardBuddy.svelte';
     import DecideGame from './views/DecideGame.svelte';
     import Home from './views/Home.svelte';
@@ -44,12 +45,12 @@
     
     <main class="flex-1 flex flex-col overflow-hidden transition-colors duration-300 relative">
         <!-- Mobile Header Navigation -->
-        <header class="md:hidden flex items-center justify-between p-4 border-b-[4px] border-black bg-white shadow-[0_4px_0_0_var(--theme-black)] z-30">
-            <div class="font-display text-4xl flex flex-col leading-none uppercase tracking-wider drop-shadow-[2px_2px_0_var(--theme-black)]">
-                <span class="text-black bg-[var(--accent)] px-2 border-2 border-black w-fit rotate-2 mb-1 drop-shadow-[2px_2px_0_var(--theme-black)]">BG</span> 
+        <header class="md:hidden flex items-center justify-between p-4 border-b-[4px] border-[var(--border-color)] bg-[var(--card-bg)] shadow-[0_4px_0_0_var(--theme-black)] z-30">
+            <div class="font-display text-4xl flex flex-col leading-none uppercase tracking-wider drop-shadow-[2px_2px_0_var(--theme-black)] text-[var(--panel-text)]">
+                <span class="text-[var(--chip-text)] bg-[var(--accent)] px-2 border-2 border-[var(--border-color)] w-fit rotate-2 mb-1 drop-shadow-[2px_2px_0_var(--theme-black)]">BG</span> 
                 Night
             </div>
-            <button class="p-2 rounded-none bg-black text-white hover:bg-[var(--accent)] border-2 border-black shadow-[2px_2px_0_var(--theme-black)] transition-colors" on:click={() => isMobileOpen = true}>
+            <button class="p-2 rounded-none bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--accent)] hover:text-white border-2 border-[var(--border-color)] shadow-[2px_2px_0_var(--theme-black)] transition-colors" on:click={() => isMobileOpen = true}>
                 <Menu size=32 />
             </button>
         </header>
@@ -73,5 +74,6 @@
     
     <Toast />
     <GameDetailsModal />
+    <TableSetupAssistant />
     <BoardBuddy />
 </div>

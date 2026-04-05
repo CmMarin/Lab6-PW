@@ -37,7 +37,7 @@
   }
 
   .brutal-btn {
-    @apply border-[3px] border-black bg-white text-black font-display tracking-wide uppercase px-4 py-2 transform-gpu transition-all duration-150 outline-none cursor-pointer;
+    @apply border-[3px] border-[var(--border-color)] bg-[var(--button-bg)] text-[var(--button-text)] font-display tracking-wide uppercase px-4 py-2 transform-gpu transition-all duration-150 outline-none cursor-pointer;
     box-shadow: 4px 4px 0px 0px var(--theme-black, #000);
   }
   
@@ -47,7 +47,7 @@
   }
 
   .brutal-card {
-    @apply border-[4px] border-black bg-card transform-gpu transition-all duration-200 outline-none;
+    @apply border-[4px] border-[var(--border-color)] bg-card text-[var(--panel-text)] transform-gpu transition-all duration-200 outline-none;
     box-shadow: 6px 6px 0px 0px var(--theme-black, #000);
   }
 
@@ -57,12 +57,11 @@
   }
   
   .game-stat {
-    @apply font-mono text-sm uppercase tracking-tighter bg-black text-white px-2 py-1 border-[3px] border-black;
+    @apply font-mono text-sm uppercase tracking-tighter bg-[var(--chip-bg)] text-[var(--chip-text)] px-2 py-1 border-[3px] border-[var(--border-color)];
     box-shadow: 4px 4px 0px 0px var(--theme-black, #000);
   }
 }
 
-/* Global Theme Variables */
 @layer base {
 
   /* Light / Bright Neo-Brutalism */
@@ -71,7 +70,17 @@
     --theme-white: #ffffff;
     --bg-color: #ffd000; /* Punchy Yellow */
     --text-color: #0b0c10;
+    --text-muted: #4a4a4a;
+    --panel-text: #0b0c10;
     --card-bg: #fff0f5; 
+    --card-bg-2: #ffffff;
+    --button-bg: #ffffff;
+    --button-text: #000000;
+    --chip-bg: #000000;
+    --chip-text: #ffffff;
+    --input-bg: #ffffff;
+    --input-text: #000000;
+    --input-placeholder: #666666;
     --accent: #ff3366; /* Hot Pink */
     --accent-dark: #b30033;
     --border-color: #000000;
@@ -87,7 +96,17 @@
     --theme-white: #1e293b; /* Dark slate for inverted panels */
     --bg-color: #0f172a; /* Midnight Blue Background */
     --text-color: #f1f5f9; /* Crisp off-white text */
+    --text-muted: #94a3b8;
+    --panel-text: #f8fafc;
     --card-bg: #1e293b; /* Raised slate panels */
+    --card-bg-2: #334155;
+    --button-bg: #334155;
+    --button-text: #f8fafc;
+    --chip-bg: #0f172a;
+    --chip-text: #f1f5f9;
+    --input-bg: #0f172a;
+    --input-text: #f8fafc;
+    --input-placeholder: #64748b;
     --accent: #e63946; /* Casino Crimson / Roulette Red */
     --accent-dark: #b72a35;
     --border-color: #080a0c;
@@ -101,7 +120,17 @@
   [data-theme="tavern"] {
     --bg-color: #d1bfae;
     --text-color: #3b2a1a;
+    --text-muted: #6b503a;
+    --panel-text: #2f2010;
     --card-bg: #f8ecdd; /* Light parchment card */
+    --card-bg-2: #fff5e6;
+    --button-bg: #e6d3bd;
+    --button-text: #3b2a1a;
+    --chip-bg: #4a3b2c;
+    --chip-text: #f8ecdd;
+    --input-bg: #fdfbf7;
+    --input-text: #3b2a1a;
+    --input-placeholder: #8a6c51;
     --accent: #6f1c10;
     --accent-dark: #3e0b06;
     --border-color: #4a3b2c;
@@ -113,7 +142,17 @@
   [data-theme="neon"] {
     --bg-color: #0d001a;
     --text-color: #00ffff;
+    --text-muted: #009999;
+    --panel-text: #ffffff;
     --card-bg: #180033;
+    --card-bg-2: #24004d;
+    --button-bg: #24004d;
+    --button-text: #00ffff;
+    --chip-bg: #000000;
+    --chip-text: #ff00ff;
+    --input-bg: #000000;
+    --input-text: #00ffff;
+    --input-placeholder: #006666;
     --accent: #ff00ff;
     --accent-dark: #800080;
     --border-color: #00ffff;
@@ -131,26 +170,30 @@
     width: 16px;
     height: 16px;
     background-color: var(--bg-color);
-    border-left: 3px solid black;
+    border-left: 3px solid var(--border-color);
   }
   ::-webkit-scrollbar-thumb {
     background-color: var(--accent);
-    border: 3px solid black;
+    border: 3px solid var(--border-color);
     border-radius: 0;
   }
   ::-webkit-scrollbar-thumb:hover {
     background-color: var(--accent-dark);
   }
   ::-webkit-scrollbar-corner {
-    background-color: black;
+    background-color: var(--border-color);
   }
 
   input[type="text"], input[type="number"], input[type="url"], select, textarea {
-    @apply bg-white text-black border-4 border-black px-3 py-2 font-mono text-sm focus:outline-none transition-all focus:-translate-y-1 block w-full;
+    @apply bg-[var(--input-bg)] text-[var(--input-text)] border-4 border-[var(--border-color)] px-3 py-2 font-mono text-sm focus:outline-none transition-all focus:-translate-y-1 block w-full;
     box-shadow: 4px 4px 0 0 var(--theme-black, #000);
   }
+  
+  input::placeholder, textarea::placeholder {
+    color: var(--input-placeholder);
+  }
 
-  input:focus {
+  input:focus, select:focus, textarea:focus {
     box-shadow: 8px 8px 0 0 var(--theme-black, #000);
   }
 }

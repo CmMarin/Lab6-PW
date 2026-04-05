@@ -1,0 +1,338 @@
+I’m building a client-side only Svelte board game app with persistent browser storage, multiple game-selection flows, Three.js renders, barcode scanning, and a heavily customized neo-brutalist UI. The app state lives in runtime and is persisted in browser storage, which fits the lab requirement for a frontend-only app with local persistence.
+
+Project overview
+The project is called Board Game Night Organizer. It is a Svelte frontend-only app hosted as a static site, and its purpose is to help users manage a personal board game library, decide what to play tonight, and run a live game session once a choice is made.
+
+The app is not meant to look like a generic SaaS dashboard. The visual direction is a custom neo-brutalist / tactile board-game aesthetic with thick black borders, hard offset shadows, loud colors, playful typography, themed backgrounds, and more physical interactions. This is intentional and should be preserved across all new components.
+
+Core app structure
+There are 3 main functional areas in the app:
+
+Game Library Management / The Manager
+
+Decide Tonight’s Game
+
+Board Buddy / Active Session
+
+The app uses Svelte state/stores, with persistent browser storage for user data and settings. The local persistence pattern is important and should stay intact.
+
+1. Game Library Management
+This is the section where the user manages their personal collection.
+
+What it does
+Users can add games from a predefined curated list of popular games.
+
+Users can also create fully custom games manually.
+
+Users can scan a physical barcode with the device camera to auto-fill a game via html5-qrcode, which works client-side in browsers and supports live camera scanning.
+
+Users can mark favorites, define player counts, define playtime data by player count, set location tags, vibe, setup difficulty, and similar metadata.
+
+Important data model
+Each game can include fields like:
+
+title
+
+image / cover art
+
+favorite
+
+min players
+
+max players
+
+exact supported player counts
+
+playtime by player count
+
+location, like Home / Outside
+
+vibe tags
+
+setup difficulty
+
+genre or category
+
+predefined vs custom source
+
+Important UI views
+The library can be viewed in:
+
+List View
+
+Grid View
+
+ShelfView — a tactile / 3D-style shelf or cabinet presentation of the user’s collection
+
+There is also a stats dashboard showing library insights like total games, common genres, and highest supported player capacities.
+
+2. Decide Tonight’s Game
+This is the “game chooser” part of the app. It does not replace the library; it consumes the library and helps pick what to play.
+
+There are currently two separate selection paths that both lead into the chooser flow.
+
+Option A: The Logistics card
+This is the more practical route.
+
+The user sets:
+
+participant count
+
+max time available
+
+Then they click Find Tonight’s Game, which sends them into the existing Tinder-style swipe chooser using games that match those constraints.
+
+Option B: The Vibe Check card
+This is a second, separate card on the same page, not merged into the logistics card.
+
+The user sets 3 vibe sliders:
+
+Chill ↔ Cutthroat
+
+Co-op ↔ Backstab
+
+Brainless ↔ Heavy Strategy
+
+This path ignores rigid logistics or uses them less strictly, and instead scores games heuristically based on vibe similarity, producing a top match list or a curated stack that also feeds into the chooser.
+
+Important note
+The swipe / Tinder-style chooser already works and should be treated as an existing feature, not rewritten unless necessary. The Vibe Check is an additional route into the same broader “choose tonight’s game” experience, not a replacement.
+
+Today’s Rotation
+There is also a Today’s Rotation list / queue, which stores multiple candidate games for the night. This is meant to represent the planned or shortlisted games for the current session.
+
+3. Board Buddy / Active Session
+This is the live companion mode once a game has been chosen.
+
+What it does
+Opens as a full-screen or prominent session overlay
+
+Lets users add/remove players
+
+Tracks live scores with chunky tactile +/- controls
+
+Has a “who goes first?” feature
+
+Ends the session with celebration and save flow
+
+Existing features
+Interactive roster
+
+Score tracking
+
+3D physics-style dice / random starter selection
+
+Session end confetti
+
+Hall of Fame logging for saved session history
+
+The Hall of Fame persists completed session data such as:
+
+date
+
+game
+
+winner
+
+scores
+
+roster
+
+3D rendering system
+The app already uses Three.js for game rendering. This is important: do not assume we are starting from scratch with 3D.
+
+There is already a component named something like ThreeGameBox.svelte that:
+
+renders a game box with Three.js
+
+uses texture caching
+
+loads cover art textures
+
+uses OrbitControls
+
+auto-rotates
+
+supports filtering/view switching without unnecessary flicker
+
+Current issue with the render
+The front cover looks good because it uses the actual box art, but the sides and back currently look ugly because they are derived too directly from the same texture or look visually inconsistent.
+
+Desired upgrade
+We want to polish the existing ThreeGameBox.svelte, not replace the whole Three.js system.
+
+Target upgrade direction:
+
+keep the front face true to the actual cover art
+
+make sides, back, and edges more stylized and premium
+
+keep them visually cohesive with the neo-brutalist UI
+
+do not lose the identity or information of the original art
+
+improve spines / edges / back treatment so the box feels designed, not raw or warped
+
+This is a refinement pass on the existing Three.js component, not a new rendering architecture.
+
+UI and design language
+The whole app uses a strongly opinionated visual direction.
+
+Aesthetic
+neo-brutalist
+
+tactile
+
+playful
+
+not SaaS-looking
+
+not “AI generated” looking
+
+Core visual rules
+thick black borders
+
+hard offset shadows like 4px 4px 0 0 black
+
+loud but controlled colors
+
+asymmetry where useful
+
+physical feeling interactions
+
+themed backgrounds tied to the current theme
+
+custom typography, avoiding generic fonts like Inter / Roboto as the core identity
+
+Themes
+There are 4 themes:
+
+Game Night / Light
+
+High Roller / Dark
+
+RPG Night / Tavern
+
+Retro Arcade / Neon
+
+Background scatter / decorative elements
+Each theme has decorative background elements tied to it:
+
+Light / Game Night: snacks, drinks, controllers
+
+Dark / High Roller: dice, poker chips, roulette
+
+Tavern / RPG Night: maps, D&D-style items, compass, beer
+
+Neon / Retro Arcade: arcade elements, fizzy drinks, pizza
+
+These background elements are decorative and thematic, but should not interfere with legibility.
+
+Dark theme refinement
+The dark theme should be a real dark mode, not just green everywhere. The background should stay genuinely dark, while casino-style green and gold live more in panels, surfaces, accents, and highlights.
+
+Timer feature direction
+A highly visual timer feature is planned or being integrated into Board Buddy.
+
+This is a full-screen thematic timer concept:
+
+useful for turn-based or timed games
+
+big, visual, dramatic countdown
+
+styled differently per theme
+
+should feel integrated into the current theme rather than being a generic stopwatch
+
+So instead of one timer design, the app should effectively have 4 themed timer experiences, one per theme.
+
+Barcode scanning
+The project includes client-side camera barcode scanning using html5-qrcode, which supports scanning from a live camera stream and image files in web apps.
+
+This is used in the game manager to scan physical game boxes and auto-fill form fields through a mock or external data pipeline. This feature is already part of the intended architecture and should stay integrated with the add-game workflow.
+
+Persistence and storage
+This is a frontend-only app, so all meaningful user data is stored in the browser using persistent storage patterns compatible with Svelte apps. A common way to do this is syncing writable stores with localStorage, which is already a standard fit for this kind of app.
+
+Persisted data includes things like:
+
+user library
+
+favorites
+
+settings
+
+themes / accent preferences
+
+today’s rotation
+
+session history / hall of fame
+
+import / export JSON data
+
+The project also includes JSON export/import so the user can back up and restore their customized state.
+
+Important implementation mindset
+Please preserve these principles while working on the code:
+
+This is a client-side only university lab project.
+
+It must stay hostable as a static app.
+
+It must use Svelte frontend patterns.
+
+It must persist meaningful state in browser storage.
+
+It must keep its unique design language and not regress into generic dashboard styling.
+
+Existing working pieces, especially the Tinder chooser and Three.js renderer, should be enhanced, not casually replaced.
+
+What already exists conceptually
+At a high level, the app already has or is actively building:
+
+game manager
+
+predefined + custom games
+
+barcode scanner
+
+list/grid/shelf views
+
+stats dashboard
+
+logistics-based chooser
+
+vibe-based chooser
+
+swipe/Tinder chooser
+
+today’s rotation queue
+
+board buddy live session
+
+3D dice / first-player selection
+
+hall of fame persistence
+
+multi-theme brutalist styling
+
+theme-specific decorative backgrounds
+
+JSON import/export
+
+What needs to be understood when editing
+If you are editing or extending this app:
+
+do not flatten the art direction
+
+do not replace physical/tactile interactions with generic cards and inputs
+
+do not remove the separate chooser modes
+
+do not replace Three.js unless explicitly asked
+
+do not simplify the custom data model too aggressively
+
+do not make the dark theme just green everywhere
+
+do not turn themed timers/backgrounds into generic reusable components with no identity

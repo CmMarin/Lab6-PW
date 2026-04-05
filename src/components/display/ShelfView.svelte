@@ -1,5 +1,5 @@
 <script>
-    import { tonightsRotation, toastMessage, boardBuddyGame } from '../../store.js';
+    import { tonightsRotation, toastMessage, setupAssistantGame } from '../../store.js';
     import { Play, UserPlus, Clock, Star } from 'lucide-svelte';
     import { fly, fade } from 'svelte/transition';
     import ThreeGameBox from '../icons/ThreeGameBox.svelte';
@@ -133,18 +133,17 @@
 
                 <!-- Brutalist Action Button -->        
                 <button
-                    class="w-full cursor-pointer bg-[var(--accent)] text-white hover:bg-[var(--theme-black)] hover:text-[var(--theme-white)] font-display text-3xl tracking-widest uppercase py-6 flex items-center justify-center gap-4 border-[4px] border-[var(--theme-black)] shadow-[8px_8px_0_0_var(--theme-black)] transition-all active:translate-y-2 active:translate-x-2 active:shadow-[0px_0px_0_0_var(--theme-black)]"
-                    on:click={() => {
-                        addToRotation(activeGame);      
-                    }}
+                    class="w-full cursor-pointer bg-yellow-300 text-black hover:bg-yellow-400 font-display text-2xl tracking-widest uppercase py-6 flex items-center justify-center gap-4 border-[4px] border-[var(--theme-black)] shadow-[8px_8px_0_0_var(--theme-black)] transition-all active:translate-y-2 active:translate-x-2 active:shadow-[0px_0px_0_0_var(--theme-black)] mb-4"
+                    on:click={() => addToRotation(activeGame)}
                 >
-                    <Play size={36} strokeWidth={4} />      
-                    PLAY NOW
+                    <UserPlus size={32} strokeWidth={3} />      
+                    ADD TO TODAYS SESSION
                 </button>
                 <button 
-                    class="w-full mt-4 cursor-pointer bg-black text-white hover:bg-[var(--accent)] hover:text-black font-display text-3xl tracking-widest uppercase py-6 flex items-center justify-center gap-4 border-[4px] border-[var(--theme-black)] shadow-[8px_8px_0_0_var(--theme-black)] transition-all active:translate-y-2 active:translate-x-2 active:shadow-[0px_0px_0_0_var(--theme-black)]" 
-                    on:click={() => { $boardBuddyGame = activeGame; }}
+                    class="w-full cursor-pointer bg-[var(--accent)] text-white hover:bg-[var(--theme-black)] hover:text-white font-display text-3xl tracking-widest uppercase py-6 flex items-center justify-center gap-4 border-[4px] border-[var(--theme-black)] shadow-[8px_8px_0_0_var(--theme-black)] transition-all active:translate-y-2 active:translate-x-2 active:shadow-[0px_0px_0_0_var(--theme-black)]" 
+                    on:click={() => { $setupAssistantGame = activeGame; }}
                 >
+                    <Play size={36} strokeWidth={4} />
                     START SESSION
                 </button>
             </div>

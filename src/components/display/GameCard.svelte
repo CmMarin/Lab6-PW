@@ -1,6 +1,6 @@
 <script>
-    import { Play, MapPin, Smile, Users, Star } from 'lucide-svelte';
-    import { settings, selectedGameDetail } from '../../store.js';
+    import { Play, MapPin, Smile, Users, Star, PlusCircle } from 'lucide-svelte';
+    import { settings, selectedGameDetail, tonightsRotation, toastMessage } from '../../store.js';
     import Meeple from '../icons/Meeple.svelte';
     import D20 from '../icons/D20.svelte';
     import ThreeGameBox from '../icons/ThreeGameBox.svelte';
@@ -17,6 +17,16 @@
         if (times.length === 0) return 'N/A';
         const avg = Math.round(times.reduce((a, b) => a + b) / times.length);
         return `~${avg} mins`;
+    }
+
+    function addToSession(game, event) {
+        event.stopPropagation();
+        if (!$tonightsRotation.some(g => g.id === game.id)) {
+            $tonightsRotation = [...$tonightsRotation, game];
+            $toastMessage = `${game.name} added to todays session!`;
+        } else {
+            $toastMessage = `${game.name} is already queued!`;
+        }
     }
 
     // Hash the ID or index to generate a consistent pseudo-random rotation betweeen -2deg and 2deg
@@ -94,6 +104,13 @@
                     </div>
                     
                 </div>
+                <!-- Easy Access Session Add -->
+                <button 
+                    class="mt-2 text-sm font-mono font-bold bg-yellow-300 text-black border-2 border-black p-1 uppercase justify-center flex items-center gap-1 hover:bg-yellow-400 active:translate-y-px transition-colors shadow-[3px_3px_0_var(--theme-black)] z-20 group-hover:scale-105"
+                    on:click={(e) => addToSession(game, e)}
+                >
+                    <PlusCircle size=16 /> Add to Session
+                </button>
             </div>
 
         </div>

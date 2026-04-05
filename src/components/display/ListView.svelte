@@ -1,6 +1,6 @@
 <script>
-    import { Play, MapPin, Smile } from 'lucide-svelte';
-    import { settings, selectedGameDetail } from '../../store.js';
+    import { Play, MapPin, Smile, PlusCircle } from 'lucide-svelte';
+    import { settings, selectedGameDetail, tonightsRotation, toastMessage } from '../../store.js';
     import Meeple from '../icons/Meeple.svelte';
     import D20 from '../icons/D20.svelte';
     import ThreeGameBox from '../icons/ThreeGameBox.svelte';
@@ -15,6 +15,16 @@
         if (times.length === 0) return 'N/A';
         const avg = Math.round(times.reduce((a, b) => a + b) / times.length);
         return `~${avg} mins`;
+    }
+
+    function addToSession(game, event) {
+        event.stopPropagation();
+        if (!$tonightsRotation.some(g => g.id === game.id)) {
+            $tonightsRotation = [...$tonightsRotation, game];
+            $toastMessage = `${game.name} added to todays session!`;
+        } else {
+            $toastMessage = `${game.name} is already queued!`;
+        }
     }
 </script>
 
@@ -57,6 +67,13 @@
                     <div class="flex items-center gap-1 px-1 bg-[var(--accent-dark)] text-white brutal-shadow shadow-[2px_2px_0_var(--theme-black)] justify-center border-[2px] border-black"><MapPin size=12 /> {game.location}</div>
                     <div class="flex items-center gap-1 px-1 bg-[var(--accent)] text-white brutal-shadow shadow-[2px_2px_0_var(--theme-black)] justify-center border-[2px] border-black"><Smile size=12 /> {game.vibe}</div>
                 </div>
+                <!-- Easy Access Button -->
+                <button 
+                    class="mt-2 text-xs font-mono font-bold font-bold w-full bg-yellow-300 text-black border-2 border-black p-1 uppercase justify-center flex items-center gap-1 hover:bg-yellow-400 active:translate-y-px transition-colors shadow-[2px_2px_0_var(--theme-black)] z-20 group-hover:scale-105"
+                    on:click={(e) => addToSession(game, e)}
+                >
+                    <PlusCircle size=14 /> Add to Session
+                </button>
             </div>
         </div>
     {/each}
