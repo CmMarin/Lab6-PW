@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Light Theme (Default) */
+  :root, [data-theme="light"] {
+    --bg-color: #f7f9fc;
+    --text-color: #1a202c;
+    --card-bg: #ffffff;
+    --accent: #3b82f6;
+    --font-stack: "Inter";
+    --border-color: #e2e8f0;
+  }
+
+  /* Dark Theme */
+  [data-theme="dark"] {
+    --bg-color: #1a202c;
+    --text-color: #f7fafc;
+    --card-bg: #2d3748;
+    --accent: #10b981;
+    --border-color: #4a5568;
+    --font-stack: "Inter";
+  }
+
+  /* Tavern / Parchment Theme */
+  [data-theme="tavern"] {
+    --bg-color: #e6daca;
+    --text-color: #3e2723;
+    --card-bg: #f5eedc;
+    --accent: #8b0000;
+    --border-color: #c9b497;
+    --font-stack: "Merriweather";
+  }
+
+  /* Neon Arcade Theme */
+  [data-theme="neon"] {
+    --bg-color: #0b021d;
+    --text-color: #f8f8ff;
+    --card-bg: #1a0b2e;
+    --accent: #ff00ff;
+    --border-color: #31115b;
+    --font-stack: "Inter";
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-text font-sans transition-colors duration-300 min-h-screen m-0;
+  }
+
+  /* Typography based on theme */
+  [data-theme="tavern"] body {
+    @apply font-serif;
+  }
+
+  /* Custom Glow for Neon */
+  [data-theme="neon"] .btn-accent,
+  [data-theme="neon"] .card {
+    box-shadow: 0 0 10px var(--accent), inset 0 0 5px var(--accent);
+    border: 1px solid var(--accent);
+  }
+}
+
+/* Utilities for cards, buttons */
+@layer components {
+  .card {
+    @apply bg-card text-text rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg border border-border-color;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-lg font-semibold transition-all duration-300;
+  }
+
+  .btn-accent {
+    background-color: var(--accent);
+    color: white; /* assuming accent is relatively dark */
+  }
+
+  .btn-accent:hover {
+    filter: brightness(1.2);
+  }
+}
