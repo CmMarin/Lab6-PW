@@ -1,3 +1,8 @@
+<script context="module">
+    // Global texture cache to prevent re-fetching and flickering when filtering/switching views
+    const textureCache = new Map();
+</script>
+
 <script>
     import { onMount, onDestroy } from 'svelte';
     import * as THREE from 'three';
@@ -19,11 +24,11 @@
         renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        // Lighting Setup
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.4); // Doubled brightness to fix dark boxes
         scene.add(ambientLight);
         
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.0); // Boosted directional lighting
         dirLight.position.set(5, 5, 5);
         scene.add(dirLight);
 
@@ -32,40 +37,49 @@
 
         // Material Array: [Right, Left, Top, Bottom, Front, Back]
         const fallbackMaterial = new THREE.MeshStandardMaterial({ color: 0xeaeaea, roughness: 0.8 });
-        
         let materials = [fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial];
 
-        if (imageUrl) {
-            const textureLoader = new THREE.TextureLoader();
-            textureLoader.setCrossOrigin(''); // Some servers reject 'anonymous' explicitly, empty string allows best fallback
-            textureLoader.load(imageUrl, (texture) => {
-                texture.colorSpace = THREE.SRGBColorSpace;
+        function applyTexture(texture) {
+            texture.colorSpace = THREE.SRGBColorSpace;
                 
-                // Bright texture for the front cover
-                const frontMat = new THREE.MeshStandardMaterial({ 
-                    map: texture,
-                    roughness: 0.3,
-                    metalness: 0.1,
-                    color: 0xffffff
-                });
-                
-                // Dimmed texture mapped for sides to look like a true box
-                const sideMat = new THREE.MeshStandardMaterial({ 
-                    map: texture,
-                    roughness: 0.8,
-                    metalness: 0.05,
-                    color: 0x888888 
-                });
-                
-                // Material array maps to: [Right, Left, Top, Bottom, Front, Back]
-                scene.children.forEach(child => {
-                    if(child.isMesh) {
-                        child.material = [sideMat, sideMat, sideMat, sideMat, frontMat, sideMat];
-                    }
-                });
-            }, undefined, (error) => {
-                console.error("Texture Loading Error:", error);
+            // Bright texture for the front cover
+            const frontMat = new THREE.MeshStandardMaterial({ 
+                map: texture,
+                roughness: 0.2, // Smoother/more glossy box
+                metalness: 0.05,
+                color: 0xffffff
             });
+            
+            // Dimmed texture mapped for sides to look like a true box (Brighter than original 0x888888)
+            const sideMat = new THREE.MeshStandardMaterial({ 
+                map: texture,
+                roughness: 0.6,
+                metalness: 0.05,
+                color: 0xcccccc 
+            });
+            
+            // Material array maps to: [Right, Left, Top, Bottom, Front, Back]
+            scene.children.forEach(child => {
+                if(child.isMesh && child.geometry === geometry) {
+                    child.material = [sideMat, sideMat, sideMat, sideMat, frontMat, sideMat];
+                }
+            });
+        }
+
+        if (imageUrl) {
+            if (textureCache.has(imageUrl)) {
+                // Instantly apply cached texture, preventing networking/flickering
+                applyTexture(textureCache.get(imageUrl));
+            } else {
+                const textureLoader = new THREE.TextureLoader();
+                textureLoader.setCrossOrigin(''); // Some servers reject 'anonymous' explicitly, empty string allows best fallback
+                textureLoader.load(imageUrl, (texture) => {
+                    textureCache.set(imageUrl, texture);
+                    applyTexture(texture);
+                }, undefined, (error) => {
+                    console.error("Texture Loading Error:", error);
+                });
+            }
         }
 
         const box = new THREE.Mesh(geometry, materials);
