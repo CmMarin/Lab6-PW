@@ -47,8 +47,8 @@ import { toastMessage, activeTheme } from '../store.js';
         <div class="flex items-center justify-between p-6 border-b-[4px] border-black bg-[var(--accent)] text-white">
             {#if !isCollapsed}
                 <div class="font-display text-4xl flex flex-col leading-none uppercase tracking-wider drop-shadow-[2px_2px_0_var(--theme-black)]">
-                    <span class="text-black bg-white px-2 border-2 border-black w-fit -rotate-2 mb-1 drop-shadow-[2px_2px_0_var(--theme-black)]">Board</span> 
-                    Game Night
+                    <span class="text-black bg-white px-2 border-2 border-black w-fit -rotate-2 mb-1 drop-shadow-[2px_2px_0_var(--theme-black)]">Board</span>
+                    & Order
                 </div>
             {/if}
             <div class="flex gap-2 items-start mt-[-20px] {isCollapsed ? 'mx-auto' : ''}">

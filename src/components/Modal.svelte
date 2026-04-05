@@ -154,7 +154,7 @@
             <!-- SCANNER UI MODAL -->
             {#if scanning}
                 <div class="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm">
-                    <div class="w-full max-w-md bg-[var(--theme-white)] border-[6px] border-[var(--theme-black)] p-4 relative shadow-[8px_8px_0_0_var(--theme-black)]">
+                    <div class="w-full max-w-md bg-[var(--theme-white)] border-[6px] border-[var(--theme-black)] p-4 relative shadow-[8px_8px_0_0_var(--theme-black)] flex flex-col max-h-[90dvh]">
                         <button class="absolute -top-4 -right-4 w-12 h-12 bg-red-500 border-[4px] border-[var(--theme-black)] flex items-center justify-center text-white hover:bg-black z-50 cursor-pointer shadow-[4px_4px_0_0_var(--theme-black)]" on:click={stopCamera}>
                             <X size=28 strokeWidth=3 />
                         </button>

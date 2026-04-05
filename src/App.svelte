@@ -26,7 +26,7 @@
 </script>
 
 <!-- Application Shell -->
-<div class="flex h-screen overflow-hidden bg-bg relative z-0">
+<div class="flex h-[100dvh] overflow-hidden bg-bg relative z-0">
     <BackgroundScatter />
 
     <!-- Responsive Drawer overlay -->
@@ -43,9 +43,9 @@
 
     <Sidebar bind:activeRoute bind:isMobileOpen />
     
-    <main class="flex-1 flex flex-col overflow-hidden transition-colors duration-300 relative">
+    <main class="flex-1 flex flex-col transition-colors duration-300 relative z-10 w-full overflow-hidden">
         <!-- Mobile Header Navigation -->
-        <header class="md:hidden flex items-center justify-between p-4 border-b-[4px] border-[var(--border-color)] bg-[var(--card-bg)] shadow-[0_4px_0_0_var(--theme-black)] z-30">
+        <header class="md:hidden flex items-center justify-between p-4 border-b-[4px] border-[var(--border-color)] bg-[var(--card-bg)] shadow-[0_4px_0_0_var(--theme-black)] z-50">
             <div class="font-display text-4xl flex flex-col leading-none uppercase tracking-wider drop-shadow-[2px_2px_0_var(--theme-black)] text-[var(--panel-text)]">
                 <span class="text-[var(--chip-text)] bg-[var(--accent)] px-2 border-2 border-[var(--border-color)] w-fit rotate-2 mb-1 drop-shadow-[2px_2px_0_var(--theme-black)]">BG</span> 
                 Night
@@ -56,9 +56,9 @@
         </header>
 
         <!-- Dynamic Route Area with Svelte Page Transitions -->
-        <div class="flex-1 relative overflow-hidden">
+        <div class="flex-1 relative w-full h-full overflow-hidden">
             {#key activeRoute}
-                <div in:fade="{{ duration: 300, delay: 100 }}" out:fade="{{ duration: 100 }}" class="absolute inset-0 w-full h-full">
+                <div in:fade="{{ duration: 300, delay: 100 }}" out:fade="{{ duration: 100 }}" class="absolute inset-0 w-full h-full overflow-y-auto overflow-x-hidden brutal-scrollbar">
                     {#if activeRoute === 'home'}
                         <Home />
                 {:else if activeRoute === 'manager'}

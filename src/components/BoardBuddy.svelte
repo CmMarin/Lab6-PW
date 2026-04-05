@@ -79,7 +79,7 @@
 </script>
 
 {#if $boardBuddyGame}
-    <div class="fixed inset-0 z-[100] flex flex-col bg-slate-900 text-white overflow-hidden" transition:fade={{duration: 200}}>
+    <div class="fixed inset-0 z-[100] flex flex-col bg-slate-900 text-white min-h-[100dvh] overflow-y-auto w-full" transition:fade={{duration: 200}}>
         
         <!-- Header -->
         <div class="p-6 bg-[var(--accent)] border-b-[8px] border-black flex justify-between items-center shadow-[0_8px_0_0_black] z-20">
@@ -98,7 +98,7 @@
         </div>
 
         <!-- Main Workspace -->
-        <div class="flex-1 overflow-y-auto p-4 sm:p-8 flex flex-col lg:flex-row gap-8 relative background-pattern">
+        <div class="flex-1 w-full lg:overflow-y-auto p-4 sm:p-8 flex flex-col lg:flex-row gap-8 relative background-pattern">
             
             <!-- Left Column: Players & Scores -->
             <div class="flex-1 flex flex-col gap-6 w-full lg:max-w-2xl mx-auto">

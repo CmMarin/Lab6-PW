@@ -54,7 +54,7 @@
         <div class="absolute inset-0 bg-yellow-400/90 backdrop-blur-md background-pattern" on:click={close}></div>
 
         <!-- Modal Content -->
-        <div class="bg-[var(--card-bg)] w-full max-w-4xl max-h-[95vh] border-[4px] border-black shadow-[12px_12px_0_0_var(--theme-black)] relative flex flex-col md:flex-row overflow-hidden transform rotate-1 transition-transform" transition:scale={{start: 0.95, duration: 200}}>
+        <div class="bg-[var(--card-bg)] w-full max-w-4xl max-h-[90dvh] border-[4px] border-black shadow-[12px_12px_0_0_var(--theme-black)] relative flex flex-col md:flex-row overflow-hidden transform md:rotate-1 rotate-0 transition-transform" transition:scale={{start: 0.95, duration: 200}}>
 
             <button class="brutal-btn absolute top-[-4px] right-[-4px] z-20 bg-red-500 hover:bg-black text-white p-3 border-[4px] border-black shadow-[4px_4px_0_0_var(--theme-black)] transition-colors" on:click={close}>
                 <X size=32 strokeWidth=4 />

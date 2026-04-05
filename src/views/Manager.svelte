@@ -4,6 +4,7 @@
     import { Plus, Trash2, PieChart, Users, Tag } from 'lucide-svelte';
 
     let showModal = false;
+    let activeTab = 'inventory';
     let sortBy = 'name-asc';
 
     // Reactive Stats Logic
@@ -43,7 +44,7 @@
     }
 </script>
 
-<div class="p-4 md:p-8 max-w-6xl mx-auto flex flex-col h-full">
+<div class="p-4 md:p-8 max-w-6xl mx-auto flex flex-col lg:h-full min-h-full">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 pb-4 border-b-[4px] border-black">
         <div>
             <h1 class="text-5xl font-heading uppercase text-[var(--panel-text)] drop-shadow-[2px_2px_0_var(--accent)] tracking-wide mb-2">Game Manager</h1>
@@ -55,10 +56,10 @@
     </div>
 
     <!-- Redesigned Manager Layout -->
-    <div class="flex flex-col flex-1 overflow-hidden gap-6">
+    <div class="flex flex-col flex-1 lg:overflow-hidden gap-6">
 
         <!-- Full Width Scoreboard Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 shrink-0">
             <div class="bg-blue-300 p-4 border-[4px] border-black shadow-[6px_6px_0_0_var(--theme-black)] flex items-center justify-between transform -rotate-1 hover:rotate-1 transition-transform">
                 <div class="flex flex-col">
                     <span class="text-sm font-bold uppercase tracking-widest bg-black text-white px-2 py-1 w-fit mb-2">Total Games</span>
@@ -82,10 +83,16 @@
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-8 flex-1 min-h-0 pt-4">
+<div class="flex flex-col lg:flex-row gap-8 flex-1 lg:min-h-0 pt-4">    
+
+            <!-- Mobile Tabs -->
+            <div class="flex lg:hidden w-full border-[4px] border-black font-heading text-xl uppercase tracking-widest shadow-[4px_4px_0_0_var(--theme-black)] mb-2 flex-shrink-0">
+                <button class="flex-1 py-3 text-center border-r-[4px] border-black transition-colors {activeTab === 'inventory' ? 'bg-[var(--accent)] text-white' : 'bg-white text-black hover:bg-gray-100'}" on:click={() => activeTab = 'inventory'}>Inventory</button>
+                <button class="flex-1 py-3 text-center transition-colors {activeTab === 'catalog' ? 'bg-[var(--accent)] text-white' : 'bg-white text-black hover:bg-gray-100'}" on:click={() => activeTab = 'catalog'}>Catalog</button>
+            </div>
             
             <!-- Left Side: User Library (Primary Focus) -->
-            <div class="flex-1 flex flex-col min-h-[50vh] lg:min-h-0">
+            <div class="{activeTab === 'inventory' ? 'flex' : 'hidden'} lg:flex flex-1 flex-col min-h-[50vh] lg:min-h-0">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 mb-4 bg-black text-white p-4 border-[4px] border-black rotate-1">
                     <h2 class="text-4xl font-heading uppercase tracking-wider flex items-center gap-3">
                         Your Inventory
@@ -103,7 +110,7 @@
                     </div>
                 </div>
 
-                <div class="flex-1 overflow-y-auto space-y-4 pr-4 pb-10">
+                <div class="flex-1 lg:overflow-y-auto space-y-4 pr-4 pb-10">
                     {#if totalGames === 0}
                         <div class="h-48 border-[4px] border-dashed border-[var(--border-color)] bg-[var(--card-bg-2)] shadow-[8px_8px_0_0_var(--theme-black)] flex items-center justify-center text-[var(--panel-text)] font-bold uppercase text-2xl text-center px-4 w-full transform -rotate-1">
                             Nothing here yet.
@@ -133,11 +140,11 @@
             </div>
 
             <!-- Right Side: Master Database (The "Store") -->
-            <div class="w-full lg:w-[400px] flex flex-col bg-[url('/img/pattern.svg')] opacity-95 border-[4px] border-black shadow-[8px_8px_0_0_var(--theme-black)] min-h-[50vh] lg:min-h-0 bg-yellow-400">
+            <div class="w-full lg:w-[400px] {activeTab === 'catalog' ? 'flex' : 'hidden'} lg:flex flex-col bg-[url('/img/pattern.svg')] opacity-95 border-[4px] border-black shadow-[8px_8px_0_0_var(--theme-black)] min-h-[50vh] lg:min-h-0 bg-yellow-400">
                 <div class="bg-black text-yellow-400 p-4 border-b-[4px] border-black">
                     <h2 class="text-3xl font-heading uppercase text-center tracking-widest">The Catalog</h2>
                 </div>
-                <div class="flex-1 overflow-y-auto p-4 space-y-4">
+                <div class="flex-1 lg:overflow-y-auto p-4 space-y-4">
                     {#each masterGameList as mgame}
                         <div class="bg-[var(--card-bg)] border-[3px] border-[var(--border-color)] shadow-[4px_4px_0_0_var(--theme-black)] p-3 flex justify-between items-center transform transition-transform hover:scale-[1.02]">
                             <div class="flex flex-col max-w-[65%]">

@@ -114,7 +114,7 @@
     }
 </script>
 
-<div class="fixed inset-0 z-[100] bg-[var(--bg-color)] flex flex-col pt-8" in:fade out:fade>
+<div class="fixed inset-0 z-[100] bg-[var(--bg-color)] flex flex-col pt-8 overflow-y-auto w-full min-h-[100dvh]" in:fade out:fade>
 
     <!-- Header -->
     <header class="px-6 pb-4 border-b-[4px] border-[var(--border-color)] flex justify-between items-start mb-6 gap-4">
@@ -129,7 +129,7 @@
         </button>
     </header>
 
-    <div class="flex-1 overflow-y-auto px-4 md:px-8 pb-12 flex flex-col items-center justify-start h-full">
+    <div class="flex-1 w-full px-4 md:px-8 pb-12 flex flex-col items-center justify-start min-h-0">
 
         {#if step === 'filters'}
             <div class="flex flex-col lg:flex-row items-stretch justify-center gap-8 w-full max-w-6xl mx-auto h-full pb-8" in:fly={{y: 20}}>
@@ -208,7 +208,7 @@
                     {#if candidateGames[currentCardIndex]}
                         {@const game = candidateGames[currentCardIndex]}
                         <!-- The Card -->
-                        <div class="brutal-card w-full flex flex-col h-[550px] relative bg-[var(--card-bg)] pb-6 px-6 pt-10">
+                        <div class="brutal-card w-full flex flex-col h-[70vh] min-h-[400px] max-h-[550px] relative bg-[var(--card-bg)] pb-6 px-4 sm:px-6 pt-6 sm:pt-10">
                             <div class="absolute inset-0 bg-[url('/img/pattern.svg')] opacity-5 pointer-events-none z-0 border-b-[4px] border-black"></div>
 
                             <div class="h-2/3 w-full flex items-center justify-center relative z-10 p-2 mb-4 overflow-visible border-[4px] border-black bg-blue-50 shadow-[inset_4px_4px_0_0_var(--theme-black)]">

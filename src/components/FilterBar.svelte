@@ -20,10 +20,10 @@
     const genres = ['All', 'Strategy', 'Family', 'Party', 'Cooperative'];
 </script>
 
-<div class="brutal-card brutal-shadow-lg p-6 flex flex-wrap gap-8 items-center w-full z-20 sticky top-4 mb-10 -rotate-1 bg-white">
-    
+<div class="brutal-card brutal-shadow-lg p-4 md:p-6 flex flex-col md:flex-row flex-wrap md:gap-8 gap-6 items-start md:items-center w-full z-20 md:sticky top-0 md:top-4 mb-6 md:mb-10 -rotate-1 md:rotate-0 bg-[var(--card-bg)] border-[4px] border-[var(--border-color)]">
+
     <!-- MECHANICAL PLAYER COUNT COUNTER -->
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 w-full md:w-auto">
         <label class="font-display text-xl uppercase tracking-wider text-black bg-[var(--accent)] px-2 inline-block w-fit brutal-border-sm shadow-[2px_2px_0_0_var(--theme-black)] -rotate-2">
             Party Size
         </label>
@@ -67,9 +67,9 @@
     </div>
 
     <!-- TACTILE FAVORITE BUTTON -->
-    <div class="ml-auto flex items-center">
-        <button 
-            class="group flex items-center gap-3 px-6 py-4 uppercase font-display text-2xl tracking-widest border-[4px] border-black transition-all cursor-pointer shadow-[6px_6px_0_0_var(--theme-black)] hover:-translate-y-1 hover:shadow-[8px_8px_0_0_var(--theme-black)] active:translate-y-[6px] active:shadow-none {onlyFavorites ? 'bg-[var(--accent)] text-white' : 'bg-white text-black'}" 
+    <div class="w-full md:w-auto md:ml-auto flex items-center mt-2 md:mt-0">
+        <button
+            class="group flex w-full justify-center md:w-auto items-center gap-3 px-6 py-4 uppercase font-display text-2xl tracking-widest border-[4px] border-[var(--border-color)] transition-all cursor-pointer shadow-[6px_6px_0_0_var(--theme-black)] hover:-translate-y-1 hover:shadow-[8px_8px_0_0_var(--theme-black)] active:translate-y-[6px] active:shadow-none {onlyFavorites ? 'bg-[var(--accent)] text-[var(--button-text)]' : 'bg-[var(--button-bg)] text-[var(--panel-text)]'}"
             style="transform: rotate(-2deg);"
             on:click={() => onlyFavorites = !onlyFavorites}
         >

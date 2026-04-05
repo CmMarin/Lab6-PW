@@ -75,7 +75,7 @@
 
         <!-- Setup Assistant Modal -->
         <div 
-            class="w-full max-w-5xl max-h-[95vh] bg-[var(--card-bg)] border-[6px] border-[var(--border-color)] shadow-[16px_16px_0_0_var(--theme-black,black)] flex flex-col md:flex-row relative overflow-hidden transform"
+            class="w-full max-w-5xl max-h-[90dvh] bg-[var(--card-bg)] border-[6px] border-[var(--border-color)] shadow-[16px_16px_0_0_var(--theme-black,black)] flex flex-col md:flex-row relative overflow-hidden transform"
             in:fly={{ y: 80, duration: 400, delay: 100 }} out:fly={{ y: -50, duration: 200 }}
         >
             <button class="absolute top-2 right-2 md:top-4 md:right-4 z-50 bg-[var(--button-bg)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--button-text)] p-2 border-[4px] border-[var(--border-color)] shadow-[4px_4px_0_0_var(--theme-black)] transition-colors rotate-3 hover:rotate-12 cursor-pointer" on:click={close}>
@@ -83,7 +83,7 @@
             </button>
 
             <!-- Media / Box Art Area -->
-            <div class="w-full md:w-[40%] bg-[var(--accent)] border-b-[6px] md:border-b-0 md:border-r-[6px] border-[var(--border-color)] p-8 flex flex-col items-center justify-center relative overflow-hidden">
+            <div class="w-full md:w-[40%] bg-[var(--accent)] border-b-[6px] md:border-b-0 md:border-r-[6px] border-[var(--border-color)] p-4 md:p-8 flex flex-col items-center justify-center relative overflow-hidden shrink-0">
                 <!-- Decorative pattern -->
                 <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, #000 0, #000 2px, transparent 2px, transparent 10px);"></div>
                 

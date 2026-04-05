@@ -107,7 +107,7 @@
 </script>
 
 <div class="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-opacity {markedPlayed ? 'opacity-0' : 'opacity-100'} duration-500">
-    <div class="relative w-full max-w-2xl min-h-[500px] border-[6px] border-[var(--theme-black,black)] bg-[var(--card-bg,white)] shadow-[12px_12px_0_0_var(--theme-black,black)] flex flex-col overflow-hidden transition-all duration-500 {markedPlayed ? 'translate-y-[100vh] rotate-12 scale-50' : 'translate-y-0'}">
+    <div class="relative w-full max-w-2xl min-h-[500px] border-[6px] border-[var(--theme-black,black)] bg-[var(--card-bg,white)] shadow-[12px_12px_0_0_var(--theme-black,black)] flex flex-col overflow-hidden transition-all duration-500 {markedPlayed ? 'translate-y-[100dvh] rotate-12 scale-50' : 'translate-y-0'}">
         
         <!-- Header -->
         <div class="bg-[var(--theme-black,black)] text-[var(--bg-color,white)] p-4 flex justify-between items-center border-b-[6px] border-[var(--theme-black,black)] border-dashed">

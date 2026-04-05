@@ -51,7 +51,7 @@
 
 </script>
 
-<div class="p-4 md:p-8 max-w-4xl mx-auto flex flex-col h-full gap-8 overflow-y-auto">
+<div class="p-4 md:p-8 w-full max-w-4xl mx-auto flex flex-col min-h-full gap-8 sm:pb-24">
 
     <div class="flex items-center gap-4 border-b-[4px] border-black pb-4 mb-4 relative">
         <div class="bg-[var(--accent)] p-2 border-[3px] border-black shadow-[4px_4px_0_0_var(--theme-black)] rotate-3">

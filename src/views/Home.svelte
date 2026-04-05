@@ -39,7 +39,7 @@
     }
 </script>
 
-<div class="h-full flex flex-col p-4 md:p-6 w-full max-w-7xl mx-auto gap-6 transition-colors duration-300 overflow-hidden">
+<div class="flex flex-col p-4 md:p-6 w-full max-w-7xl mx-auto gap-6 transition-colors duration-300 min-h-full pb-16">
     
     <!-- Tonight's Rotation Banner -->
     {#if $tonightsRotation.length > 0}
@@ -129,7 +129,7 @@
 
     <FilterBar bind:selectedPlayerCount bind:selectedLocation bind:selectedGenre bind:onlyFavorites />
 
-    <section class="flex-1 overflow-y-auto overflow-x-hidden w-full relative [mask-image:linear-gradient(to_bottom,transparent,black_24px,black_calc(100%-24px),transparent)] -mt-2 pt-4 pb-4 scale-[1.01]">
+    <section class="flex-1 w-full relative -mt-2 pt-4 pb-4 scale-[1.01]">
         {#if $userLibrary.length === 0}
             <div class="absolute inset-0 flex flex-col items-center justify-center p-8">
                 <div class="bg-yellow-200 border-[4px] border-black shadow-[8px_8px_0_0_var(--theme-black)] p-10 max-w-sm w-full text-center rotate-3 transform hover:rotate-6 transition-transform">

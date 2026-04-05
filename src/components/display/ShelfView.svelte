@@ -39,7 +39,7 @@
 
             <!-- Render rows (ledges) -->
             {#each shelves as shelfGames}
-                <div class="w-full relative flex justify-center gap-6 sm:gap-10 px-4" style="transform-style: preserve-3d;">
+                <div class="w-full relative flex justify-center gap-2 min-[400px]:gap-6 sm:gap-10 px-2 sm:px-4" style="transform-style: preserve-3d;">
 
                     <!-- Solid Neo-Brutalist Isometric Shelf Base -->
                     <!-- Top flat ledge surface -->     
@@ -62,8 +62,8 @@
                              style="transform: translateZ(40px);"
                              on:click={() => activeGame = game}>
 
-                            <!-- The Game Box -->       
-                            <div class="w-24 h-36 sm:w-36 sm:h-48 bg-white border-[4px] border-[var(--theme-black)] relative overflow-hidden transition-all duration-300 transform-gpu
+                            <!-- The Game Box -->
+                            <div class="w-20 h-28 min-[400px]:w-24 min-[400px]:h-36 sm:w-36 sm:h-48 bg-white border-[4px] border-[var(--theme-black)] relative overflow-hidden transition-all duration-300 transform-gpu
                                 {activeGame?.id === game.id
                                     ? 'border-[var(--accent)] -translate-y-8 z-30 scale-110 shadow-[8px_16px_0_0_var(--theme-black)]'
                                     : 'group-hover:-translate-y-6 shadow-[4px_8px_0_0_var(--theme-black)] group-hover:shadow-[6px_12px_0_0_var(--theme-black)]'}"       
