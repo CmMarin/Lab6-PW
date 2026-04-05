@@ -203,3 +203,10 @@ tonightsRotation.subscribe((value) => {
 });
 
 export const selectedGameDetail = writable(null);
+
+export const activeTheme = writable(localStorage.getItem('theme') || 'light');
+
+export const boardBuddyGame = writable(null);
+export const boardBuddyPlayers = writable([]);
+export const hallOfFame = writable(JSON.parse(localStorage.getItem('hallOfFame') || '[]'));
+hallOfFame.subscribe(value => localStorage.setItem('hallOfFame', JSON.stringify(value)));
