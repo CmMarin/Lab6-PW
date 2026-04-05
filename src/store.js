@@ -53,3 +53,5 @@ export const userLibrary = writable(initialLibrary);
 userLibrary.subscribe((value) => {
     localStorage.setItem('userLibrary', JSON.stringify(value));
 });
+
+export const toastMessage = writable('');

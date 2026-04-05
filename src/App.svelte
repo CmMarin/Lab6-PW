@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
     import Sidebar from './components/Sidebar.svelte';
+    import Toast from './components/Toast.svelte';
     import Home from './views/Home.svelte';
     import Manager from './views/Manager.svelte';
     
@@ -33,4 +34,6 @@
             </div>
         {/key}
     </main>
+    
+    <Toast />
 </div>

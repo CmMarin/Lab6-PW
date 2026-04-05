@@ -1,5 +1,6 @@
 <script>
     import { Settings, Home, LayoutList, Palette, ChevronLeft, ChevronRight } from 'lucide-svelte';
+    import { toastMessage } from '../store.js';
     export let activeRoute = 'home';
     
     let isCollapsed = false;
@@ -24,6 +25,8 @@
             // Revert back to CSS governed accent for styled themes
             document.documentElement.style.setProperty('--accent', '');
         }
+        
+        $toastMessage = `Theme updated: ${theme}`;
     }
 
     $: if (customAccentColor && ['light', 'dark'].includes(currentTheme)) {

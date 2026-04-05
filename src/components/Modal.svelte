@@ -1,6 +1,6 @@
 <script>
-    import { X } from 'lucide-svelte';
-    import { userLibrary } from '../store.js';
+    import { X, Clock } from 'lucide-svelte';
+    import { userLibrary, toastMessage } from '../store.js';
 
     export let show = false;
 
@@ -10,8 +10,8 @@
         imageUrl: '',
         minPlayers: 2,
         maxPlayers: 4,
-        validPlayerCounts: "2,3,4",
-        playtimeByPlayerCount: "2:60, 4:90",
+        validPlayerCounts: [2, 3, 4],
+        playtimeByPlayerCount: { 2: 60, 3: 60, 4: 90 },
         favorite: false,
         setupDifficulty: 'Easy',
         location: 'Home',
@@ -19,20 +19,33 @@
         genre: ''
     };
 
+    const possiblePlayerCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    function togglePlayerCount(count) {
+        if (newGame.validPlayerCounts.includes(count)) {
+            newGame.validPlayerCounts = newGame.validPlayerCounts.filter(c => c !== count);
+            delete newGame.playtimeByPlayerCount[count];
+            newGame.playtimeByPlayerCount = { ...newGame.playtimeByPlayerCount };
+        } else {
+            newGame.validPlayerCounts = [...newGame.validPlayerCounts, count].sort((a, b) => a - b);
+            newGame.playtimeByPlayerCount[count] = 60; // Default new time to 60 mins
+            newGame.playtimeByPlayerCount = { ...newGame.playtimeByPlayerCount };
+        }
+    }
+
     function processCustomGame() {
-        const parsedGame = { ...newGame };
-        parsedGame.validPlayerCounts = typeof parsedGame.validPlayerCounts === 'string' ? parsedGame.validPlayerCounts.split(',').map(n => parseInt(n.trim())) : parsedGame.validPlayerCounts;
-        
-        if (typeof parsedGame.playtimeByPlayerCount === 'string') {
-            const timeObj = {};
-            parsedGame.playtimeByPlayerCount.split(',').forEach(pair => {
-                const [count, time] = pair.split(':');
-                if (count && time) timeObj[parseInt(count.trim())] = parseInt(time.trim());
-            });
-            parsedGame.playtimeByPlayerCount = timeObj;
+        if (!newGame.name.trim()) {
+            $toastMessage = "❌ Game name is required!";
+            return;
         }
 
-        $userLibrary = [...$userLibrary, parsedGame];
+        if (newGame.validPlayerCounts.length === 0) {
+            $toastMessage = "❌ Please select at least one supported player count.";
+            return;
+        }
+
+        $userLibrary = [...$userLibrary, { ...newGame }];
+        $toastMessage = `${newGame.name} saved to library!`;
         closeModal();
     }
 
@@ -67,17 +80,41 @@
                 </div>
             </div>
 
-            <div class="flex flex-col gap-1">
-                <label class="font-bold text-sm text-text/80">Valid Player Counts (comma separated)</label>
-                <input class="p-3 rounded-lg border border-border/20 bg-bg text-text" bind:value={newGame.validPlayerCounts} placeholder="2, 3, 4, 5" />
+            <!-- Dynamic Array Toggle for validPlayerCounts -->
+            <div class="flex flex-col gap-2 mt-2">
+                <label class="font-bold text-sm text-text/80">Supported Player Counts</label>
+                <div class="flex flex-wrap gap-2">
+                    {#each possiblePlayerCounts as count}
+                        <button 
+                            class="w-10 h-10 rounded-lg font-bold border transition-all {newGame.validPlayerCounts.includes(count) ? 'bg-[var(--accent)] text-white border-[var(--accent)] shadow-md' : 'bg-transparent text-text border-border/20 hover:border-text/30'}"
+                            on:click={() => togglePlayerCount(count)}
+                        >
+                            {count}
+                        </button>
+                    {/each}
+                </div>
             </div>
 
-            <div class="flex flex-col gap-1">
-                <label class="font-bold text-sm text-text/80">Playtime by Count (count:mins, comma separated)</label>
-                <input class="p-3 rounded-lg border border-border/20 bg-bg text-text" bind:value={newGame.playtimeByPlayerCount} placeholder="2:30, 4:60, 5:90" />
+            <!-- Dynamic Input Mapping for playtimeByPlayerCount -->
+            <div class="flex flex-col gap-2 mt-2 bg-text/5 p-4 rounded-xl border border-border/10">
+                <label class="font-bold text-sm text-text/80 flex items-center gap-2">
+                    <Clock size=16 /> Playtime by Player Count (Mins)
+                </label>
+                {#if newGame.validPlayerCounts.length === 0}
+                    <p class="text-xs opacity-50 italic">Select player counts above to estimate times.</p>
+                {:else}
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2">
+                        {#each newGame.validPlayerCounts as pCount}
+                            <div class="flex items-center gap-2 bg-card p-2 rounded-lg border border-border/10 shadow-sm">
+                                <span class="font-bold w-12 text-center text-sm">{pCount} 🧍</span>
+                                <input type="number" min="5" step="5" class="w-full bg-bg border-none focus:outline-none focus:ring-1 focus:ring-[var(--accent)] rounded p-1 font-mono text-center" bind:value={newGame.playtimeByPlayerCount[pCount]} />
+                            </div>
+                        {/each}
+                    </div>
+                {/if}
             </div>
 
-            <div class="flex gap-4">
+            <div class="flex gap-4 mt-2">
                 <div class="flex flex-col gap-1 flex-1">
                     <label class="font-bold text-sm text-text/80">Location</label>
                     <select class="p-3 rounded-lg border border-border/20 bg-bg text-text" bind:value={newGame.location}>

@@ -1,5 +1,5 @@
 <script>
-    import { userLibrary, masterGameList } from '../store.js';
+    import { userLibrary, masterGameList, toastMessage } from '../store.js';
     import Modal from '../components/Modal.svelte';
     import { Plus, Trash2 } from 'lucide-svelte';
 
@@ -10,12 +10,14 @@
         const game = masterGameList.find(g => g.id === masterId);
         if (game && !$userLibrary.find(g => g.id === masterId)) {
             $userLibrary = [...$userLibrary, { ...game }];
+            $toastMessage = `${game.name} added to your library!`;
         }
     }
 
-    function removeGame(id) {
+    function removeGame(game) {
         if (confirm('Are you sure you want to remove this game?')) {
-            $userLibrary = $userLibrary.filter(g => g.id !== id);
+            $userLibrary = $userLibrary.filter(g => g.id !== game.id);
+            $toastMessage = `${game.name} removed from your library.`;
         }
     }
 </script>
@@ -75,7 +77,7 @@
                                 <span>{ugame.vibe} Vibe</span>
                             </div>
                         </div>
-                        <button class="text-red-500 hover:text-red-700 hover:bg-red-500/10 p-2 rounded transition-colors" title="Remove" on:click={() => removeGame(ugame.id)}>
+                        <button class="text-red-500 hover:text-red-700 hover:bg-red-500/10 p-2 rounded transition-colors" title="Remove" on:click={() => removeGame(ugame)}>
                             <Trash2 size=20 />
                         </button>
                     </div>
