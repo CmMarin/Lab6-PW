@@ -40,6 +40,7 @@
         let materials = [fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial];
 
         function applyTexture(texture) {
+            if (!scene) return; // Guard against applying texture to destroyed component
             texture.colorSpace = THREE.SRGBColorSpace;
                 
             // Bright texture for the front cover
@@ -119,6 +120,20 @@
         if (animationId) cancelAnimationFrame(animationId);
         if (resizeObserver) resizeObserver.disconnect();
         
+        if (scene) {
+            scene.traverse((object) => {
+                if (object.geometry) object.geometry.dispose();
+                if (object.material) {
+                    if (Array.isArray(object.material)) {
+                        object.material.forEach(material => material.dispose());
+                    } else {
+                        object.material.dispose();
+                    }
+                }
+            });
+            scene = null;
+        }
+
         if (renderer) {
             renderer.dispose();
             if (container && container.contains(renderer.domElement)) {

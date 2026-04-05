@@ -60,7 +60,7 @@ export const masterGameList = [
     {
         id: '5',
         name: 'Pandemic',
-        imageUrl: 'https://assets-prd.ignimgs.com/2022/05/16/pandemicbg-1652735758349.jpg?crop=1%3A1%2Csmart&format=jpg&auto=webp&quality=80',
+        imageUrl: 'https://images.unsplash.com/photo-1608889476561-6242cb816fb2?auto=format&fit=crop&w=800&q=80',
         minPlayers: 2,
         maxPlayers: 4,
         validPlayerCounts: [2, 3, 4],
