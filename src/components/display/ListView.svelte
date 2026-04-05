@@ -18,7 +18,7 @@
     }
 </script>
 
-<div class="flex flex-col gap-6 p-4 mt-8">
+<div class="flex flex-col gap-6 mt-8 px-4 sm:px-6">
     {#each games as game}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -35,12 +35,12 @@
                     <h3 class="text-2xl font-display leading-none uppercase tracking-wide decoration-4 group-hover:text-[var(--accent)] text-black">{game.name}</h3>
                     {#if game.favorite}
                         {#if $settings.favoriteIcon === 'd20'}
-                            <div class="text-[var(--accent)] drop-shadow-[2px_2px_0_#000] z-20 group-hover:scale-110 transition-transform"><D20 size=24 /></div>
+                            <div class="text-[var(--accent)] drop-shadow-[2px_2px_0_var(--theme-black)] z-20 group-hover:scale-110 transition-transform"><D20 size=24 /></div>
                         {:else}
-                            <div class="text-[var(--accent)] drop-shadow-[2px_2px_0_#000] z-20 group-hover:scale-110 transition-transform"><Meeple size=24 filled /></div>
+                            <div class="text-[var(--accent)] drop-shadow-[2px_2px_0_var(--theme-black)] z-20 group-hover:scale-110 transition-transform"><Meeple size=24 filled /></div>
                         {/if}
                     {/if}
-                    <span class="px-2 py-0.5 bg-[var(--accent)] text-white text-xs font-bold uppercase brutal-border-sm brutal-shadow shadow-[2px_2px_0_#000] -rotate-2">{game.genre || 'Strategy'}</span>
+                    <span class="px-2 py-0.5 bg-[var(--accent)] text-white text-xs font-bold uppercase brutal-border-sm brutal-shadow shadow-[2px_2px_0_var(--theme-black)] -rotate-2">{game.genre || 'Strategy'}</span>
                 </div>
 
                 <div class="text-sm text-black font-mono font-bold flex gap-4">
@@ -50,12 +50,12 @@
             </div>
 
             <div class="flex flex-col items-end gap-2 min-w-[120px] font-mono">
-                <div class="game-stat border-2 border-black bg-white text-black font-bold flex items-center gap-1 shadow-[3px_3px_0_#000]">
+                <div class="game-stat border-2 border-black bg-white text-black font-bold flex items-center gap-1 shadow-[3px_3px_0_var(--theme-black)]">
                     <Play size=16 class="text-[var(--accent)] border-none" /> {getEstimatedTime(game)}
                 </div>
                 <div class="flex gap-2 text-xs font-bold mt-2 border-t-[3px] border-black pt-2 border-dashed w-full justify-end">
-                    <div class="flex items-center gap-1 px-1 bg-[var(--accent-dark)] text-white brutal-shadow shadow-[2px_2px_0_#000] justify-center border-[2px] border-black"><MapPin size=12 /> {game.location}</div>
-                    <div class="flex items-center gap-1 px-1 bg-[var(--accent)] text-white brutal-shadow shadow-[2px_2px_0_#000] justify-center border-[2px] border-black"><Smile size=12 /> {game.vibe}</div>
+                    <div class="flex items-center gap-1 px-1 bg-[var(--accent-dark)] text-white brutal-shadow shadow-[2px_2px_0_var(--theme-black)] justify-center border-[2px] border-black"><MapPin size=12 /> {game.location}</div>
+                    <div class="flex items-center gap-1 px-1 bg-[var(--accent)] text-white brutal-shadow shadow-[2px_2px_0_var(--theme-black)] justify-center border-[2px] border-black"><Smile size=12 /> {game.vibe}</div>
                 </div>
             </div>
         </div>
