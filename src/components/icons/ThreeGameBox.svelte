@@ -67,6 +67,11 @@
             });
         }
 
+        // We MUST add the fallback box to the scene BEFORE checking the cache.
+        // Otherwise, the synchronous cache hit will try to update a mesh that isn't in the scene yet!
+        const box = new THREE.Mesh(geometry, materials);
+        scene.add(box);
+
         if (imageUrl) {
             if (textureCache.has(imageUrl)) {
                 // Instantly apply cached texture, preventing networking/flickering
@@ -81,9 +86,6 @@
                 });
             }
         }
-
-        const box = new THREE.Mesh(geometry, materials);
-        scene.add(box);
 
         // Controls (OrbitControls automatically traps mouse events, preventing Swiper from swiping)
         controls = new OrbitControls(camera, renderer.domElement);
