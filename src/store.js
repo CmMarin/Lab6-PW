@@ -55,3 +55,17 @@ userLibrary.subscribe((value) => {
 });
 
 export const toastMessage = writable('');
+
+// Settings storage
+const defaultSettings = {
+    favoriteIcon: 'meeple' // 'meeple' or 'd20'
+};
+const initialSettings = JSON.parse(localStorage.getItem('appSettings') || JSON.stringify(defaultSettings));
+
+export const settings = writable(initialSettings);
+
+settings.subscribe((value) => {
+    localStorage.setItem('appSettings', JSON.stringify(value));
+});
+
+export const selectedGameDetail = writable(null);

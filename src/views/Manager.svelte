@@ -43,21 +43,22 @@
     }
 </script>
 
-<div class="p-8 max-w-6xl mx-auto flex flex-col h-full">
-    <div class="flex justify-between items-center mb-8 pb-4 border-b border-border/20">
+<div class="p-4 md:p-8 max-w-6xl mx-auto flex flex-col h-full">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-4 border-b border-border/20">
         <div>
-            <h1 class="text-4xl font-bold mb-2">Game Manager</h1>
-            <p class="text-text/70">Curate your collection from the Master List or add custom ones.</p>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Game Manager</h1>
+            <p class="text-text/70 text-sm md:text-base">Curate your collection from the Master List or add custom ones.</p>
         </div>
-        <button class="btn btn-accent flex items-center gap-2 shadow-lg" on:click={() => showModal = true}>
+        <button class="btn btn-accent flex items-center gap-2 shadow-lg self-end sm:self-auto" on:click={() => showModal = true}>
             <Plus size=20 /> Add Game
         </button>
     </div>
 
-    <div class="flex gap-8 flex-1 overflow-hidden">
+    <!-- Manager layout scales dynamically on mobile to fold the lists -->
+    <div class="flex flex-col md:flex-row gap-8 flex-1 overflow-hidden">
         <!-- Master List Panel -->
-        <div class="w-1/3 flex flex-col border-r border-border/20 pr-8">
-            <h2 class="text-2xl font-bold mb-4 opacity-80">Master Database</h2>
+        <div class="w-full md:w-1/3 flex flex-col border-b md:border-b-0 md:border-r border-border/20 md:pr-8 pb-6 md:pb-0 h-1/2 md:h-auto">
+            <h2 class="text-xl md:text-2xl font-bold mb-4 opacity-80">Master Database</h2>
             <div class="flex-1 overflow-y-auto pr-2 space-y-4">
                 {#each masterGameList as mgame}
                     <div class="card p-4 flex justify-between items-center bg-card/50 hover:bg-card">
@@ -76,7 +77,7 @@
         </div>
 
         <!-- User Library List -->
-        <div class="flex-1 flex flex-col pl-4">
+        <div class="flex-1 flex flex-col md:pl-4 pl-0 mt-6 md:mt-0">
             
             <!-- Dashboard Stats Widget -->
             <div class="grid grid-cols-3 gap-4 mb-6">

@@ -1,6 +1,8 @@
 <script>
     import { Play, MapPin, Smile } from 'lucide-svelte';
+    import { settings, selectedGameDetail } from '../../store.js';
     import Meeple from '../icons/Meeple.svelte';
+    import D20 from '../icons/D20.svelte';
     import ThreeGameBox from '../icons/ThreeGameBox.svelte';
     export let games = [];
     export let selectedPlayerCount = 4;
@@ -18,7 +20,12 @@
 
 <div class="flex flex-col gap-3 p-1">
     {#each games as game}
-        <div class="card p-4 flex items-center gap-6 group hover:-translate-x-1 transition-transform border-[var(--accent)]/0 hover:border-[var(--accent)] border-l-4">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div 
+            class="card p-4 flex items-center gap-6 group hover:-translate-x-1 transition-transform border-[var(--accent)]/0 hover:border-[var(--accent)] border-l-4 cursor-pointer shadow-sm hover:shadow-md"
+            on:click={() => $selectedGameDetail = game}
+        >
             <div class="w-24 h-24 bg-border/10 rounded overflow-hidden flex-shrink-0 relative">
                 <ThreeGameBox imageUrl={game.imageUrl} />
             </div>
@@ -27,7 +34,11 @@
                 <div class="flex items-center gap-3">
                     <h3 class="text-xl font-bold">{game.name}</h3>
                     {#if game.favorite} 
-                        <Meeple size=18 filled class="text-[var(--accent)]" /> 
+                        {#if $settings.favoriteIcon === 'd20'}
+                            <D20 size=18 className="text-[var(--accent)]" />
+                        {:else}
+                            <Meeple size=18 filled class="text-[var(--accent)]" /> 
+                        {/if}
                     {/if}
                     <span class="px-2 py-0.5 bg-[var(--accent)]/10 text-[var(--accent)] rounded text-xs font-bold uppercase">{game.genre || 'Strategy'}</span>
                 </div>

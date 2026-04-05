@@ -1,6 +1,8 @@
 <script>
     import { Users, MapPin, Tag } from 'lucide-svelte';
+    import { settings } from '../store.js';
     import Meeple from './icons/Meeple.svelte';
+    import D20 from './icons/D20.svelte';
 
     export let selectedPlayerCount = 4;
     export let selectedLocation = 'All';
@@ -54,7 +56,11 @@
 
     <div class="ml-auto flex items-center">
         <button class="flex items-center gap-2 px-4 py-2 mt-2 sm:mt-0 rounded-full border border-border/20 transition-all {onlyFavorites ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/50 shadow-[0_0_10px_var(--accent)]' : 'hover:bg-card hover:border-[var(--accent)]/30 text-text/70'}" on:click={() => onlyFavorites = !onlyFavorites}>
-            <Meeple size=18 filled={onlyFavorites} />
+            {#if $settings.favoriteIcon === 'd20'}
+                <D20 size=18 className={onlyFavorites ? "text-[var(--accent)]" : ""} />
+            {:else}
+                <Meeple size=18 filled={onlyFavorites} />
+            {/if}
             <span class="font-bold text-sm">Favorites</span>
         </button>
     </div>

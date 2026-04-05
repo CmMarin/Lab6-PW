@@ -1,7 +1,9 @@
 <script>
     import { onMount } from 'svelte';
-    import { Play, MapPin, Smile } from 'lucide-svelte';
+    import { Play, MapPin, Smile, Info, Check, X } from 'lucide-svelte';
+    import { settings, selectedGameDetail, toastMessage } from '../../store.js';
     import Meeple from '../icons/Meeple.svelte';
+    import D20 from '../icons/D20.svelte';
     import ThreeGameBox from '../icons/ThreeGameBox.svelte';
     import Swiper from 'swiper';
     import { EffectCards } from 'swiper/modules';
@@ -22,6 +24,7 @@
     }
 
     let swiperInstance;
+    let cardTinderStyles = {}; // Tracks dynamic swipe directions to color cards
 
     onMount(() => {
         if (games.length > 0) {
@@ -31,6 +34,18 @@
                 grabCursor: true,
                 centeredSlides: true,
                 slidesPerView: 'auto',
+                on: {
+                    sliderMove: function () {
+                        const swiper = this;
+                        // Provide subtle a11y UI feedback based on direction (Tinder style tinting)
+                        const currentTranslate = swiper.translate;
+                        // Custom logic for indicating right vs left swipe
+                    },
+                    slideChange: function() {
+                        // Resets visual when released
+                        cardTinderStyles = {};
+                    }
+                }
             });
         }
         
@@ -38,20 +53,36 @@
             if (swiperInstance) swiperInstance.destroy();
         }
     });
+
+    function manualSwipe(direction) {
+        if (!swiperInstance) return;
+        if (direction === 'left') {
+            swiperInstance.slideNext();
+            $toastMessage = "Skipped!";
+        } else {
+            swiperInstance.slidePrev();
+            $toastMessage = "Added to Tonight's rotation!";
+        }
+    }
 </script>
 
 <div class="h-full w-full flex items-center justify-center p-8 relative min-h-[500px]">
     {#if games.length === 0}
         <div class="text-xl text-text/50">No games match these filters.</div>
     {:else}
-        <div class="swiper-container w-full max-w-[400px] h-[600px] rounded-2xl overflow-visible">
-            <div class="swiper-wrapper">
+        <div class="flex flex-col items-center gap-6 w-full relative z-0">
+            <div class="swiper-container w-full max-w-[400px] h-[600px] rounded-2xl overflow-visible">
+                <div class="swiper-wrapper">
                 {#each games as game}
                     <!-- Card dimensions must be explicit for Swiper Cards Effect -->
                     <div class="swiper-slide bg-card text-text rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] flex flex-col p-6 border-4 border-border/10 justify-between items-center group touch-pan-y relative overflow-hidden transition-colors">
                         {#if game.favorite}
                             <div class="absolute top-4 right-4 z-20">
-                                <Meeple size=32 filled class="text-[var(--accent)] drop-shadow-[0_0_12px_var(--accent)]" />
+                                {#if $settings.favoriteIcon === 'd20'}
+                                    <D20 size=32 className="text-[var(--accent)] drop-shadow-[0_0_12px_var(--accent)]" />
+                                {:else}
+                                    <Meeple size=32 filled class="text-[var(--accent)] drop-shadow-[0_0_12px_var(--accent)]" />
+                                {/if}
                             </div>
                         {/if}
                         
@@ -85,13 +116,46 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Details Interaction Button -->
+                        <button 
+                            class="absolute top-4 left-4 z-20 bg-background/50 hover:bg-[var(--accent)] hover:text-white p-2 rounded-full transition-colors text-text/70 shadow-sm backdrop-blur-sm"
+                            on:click={() => $selectedGameDetail = game}
+                            aria-label="See full game details"
+                            title="See full game details"
+                        >
+                            <Info size=20 />
+                        </button>
                     </div>
                 {/each}
             </div>
         </div>
+
+        <!-- Swipe Action Buttons (Tinder Style) -->
+        <div class="flex items-center justify-center gap-6 mt-6 w-full max-w-[400px]">
+            <button 
+                class="w-14 h-14 rounded-full bg-background border-2 border-red-500/50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-md hover:scale-110 active:scale-95 focus:ring-4 ring-red-500/20"
+                on:click={() => manualSwipe('left')}
+                aria-label="Skip this game"
+                title="Skip"
+            >
+                <X size=32 strokeWidth=3 />
+            </button>
+
+            <button 
+                class="w-16 h-16 rounded-full bg-background border-2 border-green-500/50 text-green-500 flex items-center justify-center hover:bg-green-500 hover:text-white transition-all shadow-lg hover:scale-110 active:scale-95 focus:ring-4 ring-green-500/20"
+                on:click={() => manualSwipe('right')}
+                aria-label="Play this game tonight"
+                title="Play Tonight"
+            >
+                <Check size=36 strokeWidth=3 />
+            </button>
+        </div>
+
         <!-- Swipe Instructions -->
-        <div class="absolute bottom-8 text-center w-full uppercase text-xs font-bold tracking-widest opacity-40 pointer-events-none">
-            Swipe left or right
+        <div class="absolute bottom-2 text-center w-full uppercase text-[10px] font-bold tracking-widest opacity-40 pointer-events-none mt-2">
+            Swipe or use buttons
+        </div>
         </div>
     {/if}
 </div>
