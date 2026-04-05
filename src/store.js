@@ -4,7 +4,7 @@ export const masterGameList = [
     {
         id: '1',
         name: 'Settlers of Catan',
-        modelUrl: 'https://modelviewer.dev/shared-assets/models/shishkebab.glb',
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Catan-2015-boxart.jpg',
         minPlayers: 3,
         maxPlayers: 4,
         validPlayerCounts: [3, 4],
@@ -18,7 +18,7 @@ export const masterGameList = [
     {
         id: '2',
         name: 'Monopoly',
-        modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+        imageUrl: 'https://c8.alamy.com/comp/BF9PYM/monopoly-board-game-BF9PYM.jpg',
         minPlayers: 2,
         maxPlayers: 8,
         validPlayerCounts: [2, 3, 4, 5, 6, 7, 8],
@@ -32,7 +32,7 @@ export const masterGameList = [
     {
         id: '3',
         name: 'Ticket to Ride',
-        modelUrl: 'https://modelviewer.dev/shared-assets/models/glTF-Sample-Models/2.0/Duck/glTF-Binary/Duck.glb',
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/9/92/Ticket_to_Ride_Board_Game_Box_EN.jpg',
         minPlayers: 2,
         maxPlayers: 5,
         validPlayerCounts: [2, 3, 4, 5],

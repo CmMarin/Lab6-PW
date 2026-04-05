@@ -1,6 +1,7 @@
 <script>
     import { Play, MapPin, Smile } from 'lucide-svelte';
     import Meeple from '../icons/Meeple.svelte';
+    import ThreeGameBox from '../icons/ThreeGameBox.svelte';
     export let games = [];
     export let selectedPlayerCount = 4;
     
@@ -18,8 +19,8 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-1">
     {#each games as game}
         <div class="card flex flex-col group hover:-translate-y-1 transition-transform duration-300">
-            <div class="h-48 bg-border/10 flex items-center justify-center relative overflow-hidden">
-                <model-viewer src={game.modelUrl} auto-rotate camera-controls disable-zoom enable-pan shadow-intensity="1" class="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity" />
+            <div class="h-64 bg-border/10 flex items-center justify-center relative overflow-hidden">
+                <ThreeGameBox imageUrl={game.imageUrl} />
                 <div class="absolute inset-0 bg-gradient-to-t from-[var(--card-bg)] via-transparent to-transparent pointer-events-none" />
                 <div class="absolute bottom-4 left-4 font-bold bg-[var(--accent)] text-white px-3 py-1 rounded-full text-sm shadow-md">{game.genre || 'Tabletop'}</div>
             </div>

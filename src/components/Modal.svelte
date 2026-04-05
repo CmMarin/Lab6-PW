@@ -7,7 +7,7 @@
     let newGame = {
         id: crypto.randomUUID(),
         name: '',
-        modelUrl: '',
+        imageUrl: '',
         minPlayers: 2,
         maxPlayers: 4,
         validPlayerCounts: "2,3,4",

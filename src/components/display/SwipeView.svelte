@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { Play, MapPin, Smile } from 'lucide-svelte';
     import Meeple from '../icons/Meeple.svelte';
+    import ThreeGameBox from '../icons/ThreeGameBox.svelte';
     import Swiper from 'swiper';
     import { EffectCards } from 'swiper/modules';
     import 'swiper/css';
@@ -56,9 +57,9 @@
                         
                         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--card-bg)] pointer-events-none opacity-50 z-0" />
                         
-                        <div class="w-full h-2/3 mt-8 bg-border/5 rounded-2xl overflow-hidden shadow-inner flex-shrink-0 relative z-10 p-4">
-                            <!-- Model Viewer inside swipe limits interaction a bit but auto-rotate works well -->
-                            <model-viewer src={game.modelUrl} auto-rotate disable-zoom camera-controls field-of-view="30deg" class="w-full h-full object-contain pointer-events-auto block" />
+                        <div class="w-full h-2/3 mt-8 bg-border/5 rounded-2xl overflow-hidden shadow-inner flex-shrink-0 relative z-10">
+                            <!-- Procedural 3D Three.js Box Render -->
+                            <ThreeGameBox imageUrl={game.imageUrl} />
                         </div>
                         
                         <div class="w-full flex-1 mt-6 flex flex-col items-center text-center justify-center gap-4 z-10 px-2">
