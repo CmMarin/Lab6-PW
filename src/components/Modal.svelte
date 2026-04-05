@@ -1,5 +1,5 @@
 <script>
-    import { X, Clock } from 'lucide-svelte';
+    import { X, Clock, Camera } from 'lucide-svelte';
     import { userLibrary, toastMessage } from '../store.js';
 
     export let show = false;
@@ -52,6 +52,93 @@
     function closeModal() {
         show = false;
     }
+
+    import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode';
+    import { onMount, onDestroy, tick } from 'svelte';
+
+    let scanning = false;
+    let html5QrCode;
+
+    async function startCamera() {
+        scanning = true;
+        await tick(); // ensure #reader element is mounted before initializing
+        
+        // Slight delay for camera warm up
+        setTimeout(async () => {
+            html5QrCode = new Html5Qrcode("reader");
+            try {
+                await html5QrCode.start(
+                    { facingMode: "environment" }, 
+                    { 
+                        fps: 15, 
+                        qrbox: { width: 300, height: 150 },
+                        formatsToSupport: [
+                            Html5QrcodeSupportedFormats.UPC_A,
+                            Html5QrcodeSupportedFormats.UPC_E,
+                            Html5QrcodeSupportedFormats.EAN_13,
+                            Html5QrcodeSupportedFormats.EAN_8,
+                            Html5QrcodeSupportedFormats.CODE_128,
+                            Html5QrcodeSupportedFormats.CODE_39,
+                            Html5QrcodeSupportedFormats.QR_CODE
+                        ]
+                    },
+                    onScanSuccess,
+                    onScanFailure
+                );
+            } catch (err) {
+                console.error(err);
+                $toastMessage = "❌ Camera access denied or failed.";
+                stopCamera();
+            }
+        }, 150);
+    }
+
+    function stopCamera() {
+        if (html5QrCode) {
+            html5QrCode.stop().then(() => {
+                html5QrCode.clear();
+                scanning = false;
+            }).catch(err => {
+                scanning = false;
+            });
+        } else {
+            scanning = false;
+        }
+    }
+
+    async function onScanSuccess(decodedText, decodedResult) {
+        stopCamera();
+        $toastMessage = `Barcode found: ${decodedText}... Fetching data!`;
+        
+        // Mock Fetch mapping to open barcode API / BoardGameGeek XMLAPI2
+        try {
+            // let res = await fetch(`https://api.example.com/v1/barcode/${decodedText}`);
+            // let data = await res.json();
+            
+            // Mock data fallback
+            setTimeout(() => {
+                newGame.name = "Terraforming Mars (Scanned)";
+                newGame.minPlayers = 1;
+                newGame.maxPlayers = 5;
+                newGame.validPlayerCounts = [1, 2, 3, 4, 5];
+                newGame.playtimeByPlayerCount = {1: 90, 2: 120, 3: 120, 4: 120, 5: 150};
+                newGame.genre = 'Strategy';
+                newGame.vibe = 'Intensive';
+                newGame.setupDifficulty = 'Hard';
+                $toastMessage = "✅ Auto-filled game details from Box Barcode!";
+            }, 1000);
+        } catch(e) {
+            $toastMessage = "❌ API Fetch Failed";
+        }
+    }
+
+    function onScanFailure(error) {
+        // Ignored, continuous scan
+    }
+    
+    onDestroy(() => {
+        if (scanning) stopCamera();
+    });
 </script>
 
 <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -63,7 +150,25 @@
             </button>
         </div>
         
-        <div class="p-6 overflow-y-auto flex-1 flex flex-col gap-4">
+        
+            <!-- SCANNER UI MODAL -->
+            {#if scanning}
+                <div class="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm">
+                    <div class="w-full max-w-md bg-[var(--theme-white)] border-[6px] border-[var(--theme-black)] p-4 relative shadow-[8px_8px_0_0_var(--theme-black)]">
+                        <button class="absolute -top-4 -right-4 w-12 h-12 bg-red-500 border-[4px] border-[var(--theme-black)] flex items-center justify-center text-white hover:bg-black z-50 cursor-pointer shadow-[4px_4px_0_0_var(--theme-black)]" on:click={stopCamera}>
+                            <X size=28 strokeWidth=3 />
+                        </button>
+                        <h3 class="font-display text-2xl mb-4 text-center uppercase tracking-widest text-[var(--theme-black)]">Scan Box Barcode</h3>
+                        <div id="reader" class="w-full bg-[var(--theme-black)] min-h-[300px] border-[4px] border-[var(--theme-black)] shadow-[4px_4px_0_0_var(--theme-black)]"></div>
+                    </div>
+                </div>
+            {/if}
+
+            <div class="p-6 overflow-y-auto flex-1 flex flex-col gap-4">
+                <button class="w-full bg-[var(--accent)] text-white hover:bg-[var(--theme-black)] hover:text-white font-display text-2xl tracking-widest uppercase py-4 flex items-center justify-center gap-4 border-[4px] border-[var(--theme-black)] shadow-[4px_4px_0_0_var(--theme-black)] transition-all active:translate-y-1 active:translate-x-1 active:shadow-[0px_0px_0_0_var(--theme-black)] mb-2 group" on:click={startCamera}>
+                    <Camera size=32 strokeWidth=3 class="group-hover:scale-110 transition-transform text-[var(--theme-black)] group-hover:text-white" /> SCAN BARCODE
+                </button>
+
             <div class="flex flex-col gap-1">
                 <label class="font-bold text-sm text-text/80">Game Name</label>
                 <input class="p-3 rounded-lg border border-border/20 bg-bg text-text focus:outline-none focus:border-[var(--accent)] transition-colors" bind:value={newGame.name} placeholder="Epic RPG Adventure" />

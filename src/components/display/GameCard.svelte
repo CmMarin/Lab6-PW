@@ -37,7 +37,7 @@
         <!-- The 3D Box - Breaks out of the top border completely, NO HIDDEN OVERFLOW -->
         <!-- z-10 makes it pop out over the frame, pointer-events-none ensures you can still click the top of the card easily -->
         <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-56 z-10 pointer-events-none group-hover:-translate-y-4 group-hover:scale-[1.05] transition-transform duration-300">
-            <ThreeGameBox imageUrl={game.imageUrl} />
+            <ThreeGameBox imageUrl={game.imageUrl} title={game.name} />
         </div>
 
         <!-- Padding space for the box inside the card -->

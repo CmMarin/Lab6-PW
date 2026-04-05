@@ -9,15 +9,17 @@
     import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
     export let imageUrl = ''; // The board game cover art
+    export let title = ''; // Box spine title
 
     let container;
     let renderer, scene, camera, controls, animationId, resizeObserver;
+    let box; // keep a reference to out box so we can update its materials
 
     onMount(() => {
         // Core Setup
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
-        camera.position.set(0, 1.5, 6);
+        camera.position.set(0, 1.5, 8); // Pulled back slightly so the glowing aura doesn't clip at the canvas edges
 
         renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
@@ -39,10 +41,77 @@
         const fallbackMaterial = new THREE.MeshStandardMaterial({ color: 0xeaeaea, roughness: 0.8 });
         let materials = [fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial, fallbackMaterial];
 
+        // We MUST add the fallback box to the scene BEFORE checking the cache.
+        box = new THREE.Mesh(geometry, materials);
+        scene.add(box);
+
+        // Neo-Brutalist Outlines: 
+        // Create an edges geometry and line segments, added as a child to the box so it rotates with it!
+        const edges = new THREE.EdgesGeometry(geometry);
+        const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 }));
+        box.add(line);
+
         function applyTexture(texture) {
-            if (!scene) return; // Guard against applying texture to destroyed component
+            if (!scene || !box) return; // Guard against applying texture to destroyed component
             texture.colorSpace = THREE.SRGBColorSpace;
                 
+            // 1. Dominant Color Extraction (Client-Side)
+            let dominantColor = new THREE.Color(0xcccccc); // Default matte gray fallback
+            let rgbValues = '204, 204, 204';
+            if (texture.image) {
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 1;
+                    canvas.height = 1;
+                    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+                    ctx.drawImage(texture.image, 0, 0, 1, 1);
+                    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+                    dominantColor = new THREE.Color(`rgb(${r}, ${g}, ${b})`);
+                    rgbValues = `${r}, ${g}, ${b}`;
+                } catch (err) {
+                    console.warn("Could not extract dominant color, CORS issue or image not ready. Using fallback.", err);
+                }
+            }
+
+            // Apply glowing aura using CSS drop-shadow on the transparent WebGL canvas
+            if (renderer && renderer.domElement) {
+                // Stacked drop-shadows make the aura much more vibrant and noticeable
+                renderer.domElement.style.filter = `drop-shadow(0 0 15px rgba(${rgbValues}, 0.9)) drop-shadow(0 0 40px rgba(${rgbValues}, 0.6))`;
+                renderer.domElement.style.transition = 'filter 0.5s ease';
+            }
+
+            // 2. Dynamic Spine generation (Sideways Title + extracted background)
+            const spineCanvas = document.createElement('canvas');
+            spineCanvas.width = 128;   // representing the depth roughly
+            spineCanvas.height = 1024; // representing the height roughly
+            const spineCtx = spineCanvas.getContext('2d');
+
+            // Fill with Dominant Color
+            spineCtx.fillStyle = dominantColor.getStyle();
+            spineCtx.fillRect(0, 0, spineCanvas.width, spineCanvas.height);
+
+            // Add text if title exists
+            if (title) {
+                spineCtx.fillStyle = '#ffffff'; // White text
+                spineCtx.font = 'bold 80px monospace';
+                spineCtx.textAlign = 'center';
+                spineCtx.textBaseline = 'middle';
+                
+                // Move to center, rotate sideways
+                spineCtx.translate(spineCanvas.width / 2, spineCanvas.height / 2);
+                spineCtx.rotate(Math.PI / 2);
+                
+                // Neobrutalist thick black stroke around spine text
+                spineCtx.lineWidth = 10;
+                spineCtx.strokeStyle = '#000000';
+                spineCtx.strokeText(title, 0, 0);
+                spineCtx.fillText(title, 0, 0);
+            }
+
+            const spineTexture = new THREE.CanvasTexture(spineCanvas);
+            spineTexture.colorSpace = THREE.SRGBColorSpace;
+
+            // 3. Materials Assignment
             // Bright texture for the front cover
             const frontMat = new THREE.MeshStandardMaterial({ 
                 map: texture,
@@ -51,26 +120,22 @@
                 color: 0xffffff
             });
             
-            // Dimmed texture mapped for sides to look like a true box (Brighter than original 0x888888)
-            const sideMat = new THREE.MeshStandardMaterial({ 
-                map: texture,
-                roughness: 0.6,
-                metalness: 0.05,
-                color: 0xcccccc 
+            // Side Spines (Left / Right) with text
+            const spineMat = new THREE.MeshStandardMaterial({ 
+                map: spineTexture,
+                roughness: 0.9,
+                color: 0xffffff 
+            });
+
+            // Solid Stylized Sides for Top, Bottom, Back
+            const solidMat = new THREE.MeshStandardMaterial({
+                color: dominantColor,
+                roughness: 0.9
             });
             
             // Material array maps to: [Right, Left, Top, Bottom, Front, Back]
-            scene.children.forEach(child => {
-                if(child.isMesh && child.geometry === geometry) {
-                    child.material = [sideMat, sideMat, sideMat, sideMat, frontMat, sideMat];
-                }
-            });
+            box.material = [spineMat, spineMat, solidMat, solidMat, frontMat, frontMat];
         }
-
-        // We MUST add the fallback box to the scene BEFORE checking the cache.
-        // Otherwise, the synchronous cache hit will try to update a mesh that isn't in the scene yet!
-        const box = new THREE.Mesh(geometry, materials);
-        scene.add(box);
 
         if (imageUrl) {
             if (textureCache.has(imageUrl)) {
@@ -78,6 +143,8 @@
                 applyTexture(textureCache.get(imageUrl));
             } else {
                 const textureLoader = new THREE.TextureLoader();
+                // Enable CORS so getImageData extraction works!
+                textureLoader.setCrossOrigin('anonymous'); 
                 textureLoader.load(imageUrl, (texture) => {
                     textureCache.set(imageUrl, texture);
                     applyTexture(texture);
@@ -126,8 +193,12 @@
                 if (object.geometry) object.geometry.dispose();
                 if (object.material) {
                     if (Array.isArray(object.material)) {
-                        object.material.forEach(material => material.dispose());
+                        object.material.forEach(material => {
+                            if (material.map) material.map.dispose();
+                            material.dispose();
+                        });
                     } else {
+                        if (object.material.map) object.material.map.dispose();
                         object.material.dispose();
                     }
                 }

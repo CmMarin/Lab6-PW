@@ -27,7 +27,7 @@
             on:click={() => $selectedGameDetail = game}
         >
             <div class="w-32 h-32 flex-shrink-0 relative pointer-events-none -mt-16 group-hover:scale-110 transition-transform z-10">
-                <ThreeGameBox imageUrl={game.imageUrl} />
+                <ThreeGameBox imageUrl={game.imageUrl} title={game.name} />
             </div>
 
             <div class="flex flex-col flex-1 gap-2 pl-4">
