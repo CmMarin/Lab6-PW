@@ -1,6 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-bg: var(--bg-color);
+  --color-text: var(--text-color);
+  --color-card: var(--card-bg);
+  --color-accent: var(--accent);
+  --color-border-color: var(--border-color);
+  --font-sans: var(--font-stack), sans-serif;
+  --font-serif: var(--font-stack), serif;
+}
 
 @layer base {
   /* Light Theme (Default) */
