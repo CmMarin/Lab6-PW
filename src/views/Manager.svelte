@@ -140,7 +140,7 @@
             </div>
 
             <!-- Right Side: Master Database (The "Store") -->
-            <div class="w-full lg:w-[400px] {activeTab === 'catalog' ? 'flex' : 'hidden'} lg:flex flex-col bg-[url('/img/pattern.svg')] opacity-95 border-[4px] border-black shadow-[8px_8px_0_0_var(--theme-black)] min-h-[50vh] lg:min-h-0 bg-yellow-400">
+            <div class="w-full lg:w-[400px] {activeTab === 'catalog' ? 'flex' : 'hidden'} lg:flex flex-col bg-[url('./img/pattern.svg')] opacity-95 border-[4px] border-black shadow-[8px_8px_0_0_var(--theme-black)] min-h-[50vh] lg:min-h-0 bg-yellow-400">
                 <div class="bg-black text-yellow-400 p-4 border-b-[4px] border-black">
                     <h2 class="text-3xl font-heading uppercase text-center tracking-widest">The Catalog</h2>
                 </div>

@@ -4,7 +4,7 @@ export const masterGameList = [
     {
         id: '1',
         name: 'Settlers of Catan',
-        imageUrl: '/images/catan.jpg',
+        imageUrl: './images/catan.jpg',
         minPlayers: 3,
         maxPlayers: 4,
         validPlayerCounts: [3, 4],
@@ -18,7 +18,7 @@ export const masterGameList = [
     {
         id: '2',
         name: 'Monopoly',
-        imageUrl: '/images/monopoly.jpg',
+        imageUrl: './images/monopoly.jpg',
         minPlayers: 2,
         maxPlayers: 8,
         validPlayerCounts: [2, 3, 4, 5, 6, 7, 8],
@@ -32,7 +32,7 @@ export const masterGameList = [
     {
         id: '3',
         name: 'Ticket to Ride',
-        imageUrl: '/images/ticket.jpg',
+        imageUrl: './images/ticket.jpg',
         minPlayers: 2,
         maxPlayers: 5,
         validPlayerCounts: [2, 3, 4, 5],
@@ -46,7 +46,7 @@ export const masterGameList = [
     {
         id: '4',
         name: 'Carcassonne',
-        imageUrl: '/images/carcassonne.jpg',
+        imageUrl: './images/carcassonne.jpg',
         minPlayers: 2,
         maxPlayers: 5,
         validPlayerCounts: [2, 3, 4, 5],
@@ -60,7 +60,7 @@ export const masterGameList = [
     {
         id: '5',
         name: 'Pandemic',
-        imageUrl: '/images/pandemic.jpg',
+        imageUrl: './images/pandemic.jpg',
         minPlayers: 2,
         maxPlayers: 4,
         validPlayerCounts: [2, 3, 4],
@@ -74,7 +74,7 @@ export const masterGameList = [
     {
         id: '6',
         name: 'Dixit',
-        imageUrl: '/images/dixit.jpg',
+        imageUrl: './images/dixit.jpg',
         minPlayers: 3,
         maxPlayers: 6,
         validPlayerCounts: [3, 4, 5, 6],
@@ -88,7 +88,7 @@ export const masterGameList = [
     {
         id: '7',
         name: 'Activity',
-        imageUrl: '/images/activity.jpg',
+        imageUrl: './images/activity.jpg',
         minPlayers: 3,
         maxPlayers: 16,
         validPlayerCounts: [3, 4, 5, 6, 8, 10, 12, 14, 16],
@@ -102,7 +102,7 @@ export const masterGameList = [
     {
         id: '8',
         name: 'Codenames',
-        imageUrl: '/images/codenames.jpg',
+        imageUrl: './images/codenames.jpg',
         minPlayers: 2,
         maxPlayers: 8,
         validPlayerCounts: [2, 4, 6, 8],
@@ -116,7 +116,7 @@ export const masterGameList = [
     {
         id: '9',
         name: 'Risk',
-        imageUrl: '/images/risk.jpg',
+        imageUrl: './images/risk.jpg',
         minPlayers: 2,
         maxPlayers: 6,
         validPlayerCounts: [2, 3, 4, 5, 6],
@@ -130,7 +130,7 @@ export const masterGameList = [
     {
         id: '10',
         name: 'Uno',
-        imageUrl: '/images/uno.png',
+        imageUrl: './images/uno.png',
         minPlayers: 2,
         maxPlayers: 10,
         validPlayerCounts: [2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -144,7 +144,7 @@ export const masterGameList = [
     {
         id: '11',
         name: '7 Wonders',
-        imageUrl: '/images/7wonders.png',
+        imageUrl: './images/7wonders.png',
         minPlayers: 2,
         maxPlayers: 7,
         validPlayerCounts: [3, 4, 5, 6, 7],
@@ -158,7 +158,7 @@ export const masterGameList = [
     {
         id: '12',
         name: 'Alias',
-        imageUrl: '/images/alias.jpg',
+        imageUrl: './images/alias.jpg',
         minPlayers: 4,
         maxPlayers: 16,
         validPlayerCounts: [4, 6, 8, 10, 12, 14, 16],

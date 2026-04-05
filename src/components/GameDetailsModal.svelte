@@ -61,7 +61,7 @@
             </button>
 
             <!-- 3D Box Area (Left on Desktop, Top on Mobile) -->
-            <div class="w-full md:w-2/5 h-64 md:h-auto bg-[var(--accent)] border-b-[4px] md:border-b-0 md:border-r-[4px] border-black relative flex items-center justify-center p-8 bg-[url('/img/pattern.svg')] opacity-95">
+            <div class="w-full md:w-2/5 h-64 md:h-auto bg-[var(--accent)] border-b-[4px] md:border-b-0 md:border-r-[4px] border-black relative flex items-center justify-center p-8 bg-[url('./img/pattern.svg')] opacity-95">
                 <ThreeGameBox imageUrl={$selectedGameDetail.imageUrl} title={$selectedGameDetail.name} />
                 {#if $selectedGameDetail.favorite}
                     <div class="absolute top-4 left-4 bg-[var(--card-bg)] p-2 border-[4px] border-black shadow-[4px_4px_0_0_var(--theme-black)] rotate-12 flex items-center justify-center">

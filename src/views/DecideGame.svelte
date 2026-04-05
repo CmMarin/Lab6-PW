@@ -209,7 +209,7 @@
                         {@const game = candidateGames[currentCardIndex]}
                         <!-- The Card -->
                         <div class="brutal-card w-full flex flex-col h-[70vh] min-h-[400px] max-h-[550px] relative bg-[var(--card-bg)] pb-6 px-4 sm:px-6 pt-6 sm:pt-10">
-                            <div class="absolute inset-0 bg-[url('/img/pattern.svg')] opacity-5 pointer-events-none z-0 border-b-[4px] border-black"></div>
+                            <div class="absolute inset-0 bg-[url('./img/pattern.svg')] opacity-5 pointer-events-none z-0 border-b-[4px] border-black"></div>
 
                             <div class="h-2/3 w-full flex items-center justify-center relative z-10 p-2 mb-4 overflow-visible border-[4px] border-black bg-blue-50 shadow-[inset_4px_4px_0_0_var(--theme-black)]">
                                 <ThreeGameBox imageUrl={game.imageUrl} title={game.name} />
