@@ -4,7 +4,7 @@ export const masterGameList = [
     {
         id: '1',
         name: 'Settlers of Catan',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Catan-2015-boxart.jpg',
+        imageUrl: '/images/catan.jpg',
         minPlayers: 3,
         maxPlayers: 4,
         validPlayerCounts: [3, 4],
@@ -18,7 +18,7 @@ export const masterGameList = [
     {
         id: '2',
         name: 'Monopoly',
-        imageUrl: 'https://c8.alamy.com/comp/BF9PYM/monopoly-board-game-BF9PYM.jpg',
+        imageUrl: '/images/monopoly.jpg',
         minPlayers: 2,
         maxPlayers: 8,
         validPlayerCounts: [2, 3, 4, 5, 6, 7, 8],
@@ -32,7 +32,7 @@ export const masterGameList = [
     {
         id: '3',
         name: 'Ticket to Ride',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/9/92/Ticket_to_Ride_Board_Game_Box_EN.jpg',
+        imageUrl: '/images/ticket.jpg',
         minPlayers: 2,
         maxPlayers: 5,
         validPlayerCounts: [2, 3, 4, 5],
@@ -46,7 +46,7 @@ export const masterGameList = [
     {
         id: '4',
         name: 'Carcassonne',
-        imageUrl: 'https://www.gamesworldsa.com.au/cdn/shop/products/pic2337577_1_1200x1697.jpg?v=1598336772',
+        imageUrl: '/images/carcassonne.jpg',
         minPlayers: 2,
         maxPlayers: 5,
         validPlayerCounts: [2, 3, 4, 5],
@@ -60,7 +60,7 @@ export const masterGameList = [
     {
         id: '5',
         name: 'Pandemic',
-        imageUrl: 'https://images.unsplash.com/photo-1608889476561-6242cb816fb2?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/images/pandemic.jpg',
         minPlayers: 2,
         maxPlayers: 4,
         validPlayerCounts: [2, 3, 4],
@@ -74,7 +74,7 @@ export const masterGameList = [
     {
         id: '6',
         name: 'Dixit',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/7/7b/Dixitgame.jpg',
+        imageUrl: '/images/dixit.jpg',
         minPlayers: 3,
         maxPlayers: 6,
         validPlayerCounts: [3, 4, 5, 6],
@@ -88,7 +88,7 @@ export const masterGameList = [
     {
         id: '7',
         name: 'Activity',
-        imageUrl: 'https://images.unsplash.com/photo-1632501641765-e568d28b0015?auto=format&fit=crop&w=600&q=80',
+        imageUrl: '/images/activity.jpg',
         minPlayers: 3,
         maxPlayers: 16,
         validPlayerCounts: [3, 4, 5, 6, 8, 10, 12, 14, 16],
@@ -102,7 +102,7 @@ export const masterGameList = [
     {
         id: '8',
         name: 'Codenames',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Codenames_board_game.jpg/1280px-Codenames_board_game.jpg',
+        imageUrl: '/images/codenames.jpg',
         minPlayers: 2,
         maxPlayers: 8,
         validPlayerCounts: [2, 4, 6, 8],
@@ -116,7 +116,7 @@ export const masterGameList = [
     {
         id: '9',
         name: 'Risk',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Amsterdam_-_Risk_players_-_1136_%28cropped%29.jpg/1280px-Amsterdam_-_Risk_players_-_1136_%28cropped%29.jpg',
+        imageUrl: '/images/risk.jpg',
         minPlayers: 2,
         maxPlayers: 6,
         validPlayerCounts: [2, 3, 4, 5, 6],
@@ -130,7 +130,7 @@ export const masterGameList = [
     {
         id: '10',
         name: 'Uno',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/UNO_Logo.svg/1280px-UNO_Logo.svg.png',
+        imageUrl: '/images/uno.png',
         minPlayers: 2,
         maxPlayers: 10,
         validPlayerCounts: [2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -144,7 +144,7 @@ export const masterGameList = [
     {
         id: '11',
         name: '7 Wonders',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/0/0b/7_Wonders_-_New_Edition_boxart.png',
+        imageUrl: '/images/7wonders.png',
         minPlayers: 2,
         maxPlayers: 7,
         validPlayerCounts: [3, 4, 5, 6, 7],
@@ -158,7 +158,7 @@ export const masterGameList = [
     {
         id: '12',
         name: 'Alias',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Alias_zaidimo_lenta.JPG/1280px-Alias_zaidimo_lenta.JPG',
+        imageUrl: '/images/alias.jpg',
         minPlayers: 4,
         maxPlayers: 16,
         validPlayerCounts: [4, 6, 8, 10, 12, 14, 16],

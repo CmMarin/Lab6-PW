@@ -73,7 +73,6 @@
                 applyTexture(textureCache.get(imageUrl));
             } else {
                 const textureLoader = new THREE.TextureLoader();
-                textureLoader.setCrossOrigin(''); // Some servers reject 'anonymous' explicitly, empty string allows best fallback
                 textureLoader.load(imageUrl, (texture) => {
                     textureCache.set(imageUrl, texture);
                     applyTexture(texture);
