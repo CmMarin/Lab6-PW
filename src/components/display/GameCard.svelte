@@ -44,13 +44,13 @@
         <div class="pt-32 px-4 pb-5 flex flex-col gap-4 flex-1">
             
             <!-- Genre Badge (Overlapping background slightly like a stuck-on piece of tape) -->
-            <div class="absolute top-2 left-[-10px] bg-[var(--accent)] text-white brutal-border-sm font-display tracking-wider uppercase px-4 py-1 text-sm shadow-[4px_4px_0px_#000] -rotate-3 z-20">
+            <div class="absolute top-2 left-[-10px] bg-[var(--accent)] text-white brutal-border-sm font-display tracking-wider uppercase px-4 py-1 text-sm shadow-[4px_4px_0px_var(--theme-black)] -rotate-3 z-20">
                 {game.genre || 'Tabletop'}
             </div>
 
             <!-- Favorite Token (Physical cut-out look top right) -->
             {#if game.favorite}
-                <div class="absolute -top-4 -right-4 bg-white rounded-full p-2 brutal-border-sm shadow-[4px_4px_0px_#000] text-[var(--accent)] z-30 transition-transform group-hover:rotate-12 group-hover:scale-110">
+                <div class="absolute -top-4 -right-4 bg-white rounded-full p-2 brutal-border-sm shadow-[4px_4px_0px_var(--theme-black)] text-[var(--accent)] z-30 transition-transform group-hover:rotate-12 group-hover:scale-110">
                     {#if $settings.favoriteIcon === 'd20'}
                         <D20 size=28 />
                     {:else}
@@ -65,10 +65,10 @@
                     {game.name}
                 </h3>
                 <div class="flex items-center gap-2 mt-3 flex-wrap justify-center">
-                    <span class="game-stat shadow-[3px_3px_0_#000] bg-black text-white flex items-center gap-1 font-bold">
+                    <span class="game-stat shadow-[3px_3px_0_var(--theme-black)] bg-black text-white flex items-center gap-1 font-bold">
                         <Users size=14 class="text-[var(--accent)]" /> {game.minPlayers}-{game.maxPlayers}
                     </span>
-                    <span class="game-stat shadow-[3px_3px_0_#000] flex items-center gap-1 bg-white text-black font-bold">
+                    <span class="game-stat shadow-[3px_3px_0_var(--theme-black)] flex items-center gap-1 bg-white text-black font-bold">
                         <Play size=14 class="text-[var(--accent)]" /> {getEstimatedTime(game)}
                     </span>
                 </div>
@@ -80,7 +80,7 @@
                     
                     <div class="flex flex-col items-center gap-1">
                         <MapPin size=18 class="text-black" /> 
-                        <span class="bg-[var(--accent-dark)] text-white px-2 py-0.5 shadow-[2px_2px_0_#000] border-2 border-black w-full line-clamp-1">{game.location}</span>
+                        <span class="bg-[var(--accent-dark)] text-white px-2 py-0.5 shadow-[2px_2px_0_var(--theme-black)] border-2 border-black w-full line-clamp-1">{game.location}</span>
                     </div>
                     
                     <div class="flex flex-col items-center gap-1 relative border-x-[3px] border-black px-1">
@@ -90,7 +90,7 @@
                     
                     <div class="flex flex-col items-center gap-1">
                         <Smile size=18 class="text-black" /> 
-                        <span class="bg-[var(--accent)] text-white px-2 py-0.5 shadow-[2px_2px_0_#000] border-2 border-black w-full line-clamp-1">{game.vibe}</span>
+                        <span class="bg-[var(--accent)] text-white px-2 py-0.5 shadow-[2px_2px_0_var(--theme-black)] border-2 border-black w-full line-clamp-1">{game.vibe}</span>
                     </div>
                     
                 </div>

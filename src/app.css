@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --color-black: var(--theme-black, #000000);
+  --color-white: var(--theme-white, #ffffff);
   --color-bg: var(--bg-color);
   --color-text: var(--text-color);
   --color-card: var(--card-bg);
@@ -23,40 +25,40 @@
 
 @layer utilities {
   .brutal-shadow {
-    box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+    box-shadow: 4px 4px 0px 0px var(--theme-black, #000);
   }
 
   .brutal-shadow-lg {
-    box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+    box-shadow: 8px 8px 0px 0px var(--theme-black, #000);
   }
 
   .brutal-shadow-active {
-    box-shadow: 1px 1px 0px 0px rgba(0,0,0,1);
+    box-shadow: 1px 1px 0px 0px var(--theme-black, #000);
   }
 
   .brutal-btn {
     @apply border-[3px] border-black bg-white text-black font-display tracking-wide uppercase px-4 py-2 transform-gpu transition-all duration-150 outline-none cursor-pointer;
-    box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+    box-shadow: 4px 4px 0px 0px var(--theme-black, #000);
   }
   
   .brutal-btn:active {
     @apply translate-x-[3px] translate-y-[3px];
-    box-shadow: 1px 1px 0px 0px rgba(0,0,0,1);
+    box-shadow: 1px 1px 0px 0px var(--theme-black, #000);
   }
 
   .brutal-card {
     @apply border-[4px] border-black bg-card transform-gpu transition-all duration-200 outline-none;
-    box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);
+    box-shadow: 6px 6px 0px 0px var(--theme-black, #000);
   }
 
   .brutal-card:hover {
     @apply -translate-y-1;
-    box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
+    box-shadow: 10px 10px 0px 0px var(--theme-black, #000);
   }
   
   .game-stat {
     @apply font-mono text-sm uppercase tracking-tighter bg-black text-white px-2 py-1 border-[3px] border-black;
-    box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+    box-shadow: 4px 4px 0px 0px var(--theme-black, #000);
   }
 }
 
@@ -65,6 +67,8 @@
 
   /* Light / Bright Neo-Brutalism */
   :root, [data-theme="light"] {
+    --theme-black: #000000;
+    --theme-white: #ffffff;
     --bg-color: #ffd000; /* Punchy Yellow */
     --text-color: #0b0c10;
     --card-bg: #fff0f5; 
@@ -79,14 +83,18 @@
 
   /* Dark Casino Theme */
   [data-theme="dark"] {
-    --bg-color: #0a4f27; /* Felt Green */
-    --text-color: #ffffff;
-    --card-bg: #1a1a1a;
-    --accent: #ffaa00; /* Gold */
-    --accent-dark: #c48300;
-    --border-color: #ffd700;
+    --theme-black: #080a0c; /* Deepest black for crisp brutalist shadows */
+    --theme-white: #1e293b; /* Dark slate for inverted panels */
+    --bg-color: #0f172a; /* Midnight Blue Background */
+    --text-color: #f1f5f9; /* Crisp off-white text */
+    --card-bg: #1e293b; /* Raised slate panels */
+    --accent: #e63946; /* Casino Crimson / Roulette Red */
+    --accent-dark: #b72a35;
+    --border-color: #080a0c;
     --font-display: 'Righteous', cursive;
-    --bg-pattern: none;
+    --bg-pattern: radial-gradient(rgba(255,255,255,0.03) 2px, transparent 2px);
+    background-size: 30px 30px;
+    background-position: 0 0;
   }
 
   /* Tavern / Parchment */
@@ -116,4 +124,33 @@
     background-size: 50px 50px;
   }
 
+}
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+    background-color: var(--bg-color);
+    border-left: 3px solid black;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--accent);
+    border: 3px solid black;
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-dark);
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: black;
+  }
+
+  input[type="text"], input[type="number"], input[type="url"], select, textarea {
+    @apply bg-white text-black border-4 border-black px-3 py-2 font-mono text-sm focus:outline-none transition-all focus:-translate-y-1 block w-full;
+    box-shadow: 4px 4px 0 0 var(--theme-black, #000);
+  }
+
+  input:focus {
+    box-shadow: 8px 8px 0 0 var(--theme-black, #000);
+  }
 }

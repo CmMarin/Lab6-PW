@@ -1,12 +1,14 @@
 <script>
-    import { Settings, Home, LayoutList, Palette, ChevronLeft, ChevronRight, X, Sparkles } from 'lucide-svelte';
-    import { toastMessage } from '../store.js';
+    import { Settings, Home, LayoutList, Palette, ChevronLeft, ChevronRight, X, Dices } from 'lucide-svelte';
+import { toastMessage, activeTheme } from '../store.js';
     export let activeRoute = 'home';
     export let isMobileOpen = false;
-    
+
     let isCollapsed = false;
     let currentTheme = localStorage.getItem('theme') || 'light';
-    let customAccentColor = localStorage.getItem('accentColor') || '#ff3366';
+
+    // keep currentTheme and store synced
+    $: { currentTheme = $activeTheme; }
 
     const themes = [
         { id: 'light', label: 'Light' },
@@ -16,22 +18,12 @@
     ];
 
     function setTheme(theme) {
-        currentTheme = theme;
+        $activeTheme = theme;
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
-        
-        if (theme === 'light' || theme === 'dark') {    
-            document.documentElement.style.setProperty('--accent', customAccentColor);
-        } else {
-            document.documentElement.style.setProperty('--accent', '');
-        }
 
-        $toastMessage = `Theme updated: ${theme}`;      
-    }
-
-    $: if (customAccentColor && ['light', 'dark'].includes(currentTheme)) {
-        document.documentElement.style.setProperty('--accent', customAccentColor);
-        localStorage.setItem('accentColor', customAccentColor);
+        // Remove old inline accent styles
+        document.documentElement.style.removeProperty('--accent');
     }
 
     function navigate(route) {
@@ -53,8 +45,8 @@
         <!-- HEADER -->
         <div class="flex items-center justify-between p-6 border-b-[4px] border-black bg-[var(--accent)] text-white">
             {#if !isCollapsed}
-                <div class="font-display text-4xl flex flex-col leading-none uppercase tracking-wider drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                    <span class="text-black bg-white px-2 border-2 border-black w-fit -rotate-2 mb-1 drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">Board</span> 
+                <div class="font-display text-4xl flex flex-col leading-none uppercase tracking-wider drop-shadow-[2px_2px_0_var(--theme-black)]">
+                    <span class="text-black bg-white px-2 border-2 border-black w-fit -rotate-2 mb-1 drop-shadow-[2px_2px_0_var(--theme-black)]">Board</span> 
                     Game Night
                 </div>
             {/if}
@@ -76,12 +68,12 @@
             <button class="
                 relative flex items-center justify-between w-[110%] p-4 text-left transition-all duration-200 outline-none
                 brutal-border-sm border-r-0 rounded-l-2xl font-display text-2xl uppercase tracking-widest cursor-pointer
-                {activeRoute === 'decide' ? 'bg-[var(--accent-dark)] text-white translate-x-4 shadow-[-6px_6px_0_0_#000]' : 'bg-[var(--accent)] text-white shadow-[-4px_4px_0_0_#000] hover:translate-x-2'}
+                {activeRoute === 'decide' ? 'bg-[var(--accent-dark)] text-white translate-x-4 shadow-[-6px_6px_0_0_var(--theme-black)]' : 'bg-[var(--accent)] text-white shadow-[-4px_4px_0_0_var(--theme-black)] hover:translate-x-2'}
                 " style="transform: rotate(-1deg)" 
                 on:click={() => navigate('decide')}
             >
                 <div class="flex items-center gap-4">
-                    <Sparkles size={isCollapsed ? 32 : 28} class="flex-shrink-0 {isCollapsed ? '-ml-2' : ''}" />
+                    <Dices size={isCollapsed ? 32 : 28} class="flex-shrink-0 {isCollapsed ? '-ml-2' : ''}" />
                     <span class="{isCollapsed ? 'md:hidden' : ''}">Find Tonight's Game</span>
                 </div>
             </button>
@@ -90,7 +82,7 @@
             <button class="
                 relative flex items-center justify-between w-[110%] p-4 text-left transition-all duration-200 outline-none
                 brutal-border-sm border-r-0 rounded-l-2xl font-display text-2xl uppercase tracking-widest cursor-pointer mt-2
-                {activeRoute === 'home' ? 'bg-[#00ffff] text-black translate-x-4 shadow-[-6px_6px_0_0_#000]' : 'bg-white text-black shadow-[-4px_4px_0_0_#000] hover:bg-[#00ffff] hover:translate-x-2'}
+                {activeRoute === 'home' ? 'bg-[#00ffff] text-black translate-x-4 shadow-[-6px_6px_0_0_var(--theme-black)]' : 'bg-white text-black shadow-[-4px_4px_0_0_var(--theme-black)] hover:bg-[#00ffff] hover:translate-x-2'}
                 " style="transform: rotate(2deg)" 
                 on:click={() => navigate('home')}
             >
@@ -104,7 +96,7 @@
             <button class="
                 relative flex items-center justify-between w-[110%] p-4 text-left transition-all duration-200 outline-none
                 brutal-border-sm border-r-0 rounded-l-2xl font-display text-2xl uppercase tracking-widest cursor-pointer mt-2
-                {activeRoute === 'manager' ? 'bg-black text-white translate-x-4 shadow-[-6px_6px_0_0_#000]' : 'bg-gray-200 text-black shadow-[-4px_4px_0_0_#000] hover:bg-black hover:text-white hover:translate-x-2'}
+                {activeRoute === 'manager' ? 'bg-black text-white translate-x-4 shadow-[-6px_6px_0_0_var(--theme-black)]' : 'bg-gray-200 text-black shadow-[-4px_4px_0_0_var(--theme-black)] hover:bg-black hover:text-white hover:translate-x-2'}
                 " style="transform: rotate(-1.5deg)" 
                 on:click={() => navigate('manager')}
             >
@@ -118,7 +110,7 @@
             <button class="
                 relative flex items-center justify-between w-[110%] p-4 text-left transition-all duration-200 outline-none
                 brutal-border-sm border-r-0 rounded-l-2xl font-display text-2xl uppercase tracking-widest cursor-pointer mt-2
-                {activeRoute === 'settings' ? 'bg-yellow-400 text-black translate-x-4 shadow-[-6px_6px_0_0_#000]' : 'bg-white text-black shadow-[-4px_4px_0_0_#000] hover:bg-yellow-400 hover:translate-x-2'}
+                {activeRoute === 'settings' ? 'bg-yellow-400 text-black translate-x-4 shadow-[-6px_6px_0_0_var(--theme-black)]' : 'bg-white text-black shadow-[-4px_4px_0_0_var(--theme-black)] hover:bg-yellow-400 hover:translate-x-2'}
                 " style="transform: rotate(1deg)" 
                 on:click={() => navigate('settings')}
             >
@@ -140,16 +132,12 @@
                 {#each themes as theme}
                     <button class="
                         text-left font-mono font-bold uppercase tracking-tighter p-2 border-2 border-black transition-all
-                        {currentTheme === theme.id ? 'bg-black text-white shadow-[2px_2px_0_0_var(--accent)] translate-x-[2px] translate-y-[2px]' : 'bg-gray-100 text-black hover:bg-[var(--accent)] hover:text-white shadow-[4px_4px_0_0_#000]'}
+                        {currentTheme === theme.id ? 'bg-black text-white shadow-[2px_2px_0_0_var(--accent)] translate-x-[2px] translate-y-[2px]' : 'bg-gray-100 text-black hover:bg-[var(--accent)] hover:text-white shadow-[4px_4px_0_0_var(--theme-black)]'}
                     " on:click={() => setTheme(theme.id)}>
                         {theme.label}
                     </button>
                 {/each}
-                
-                {#if currentTheme === 'light' || currentTheme === 'dark'}
-                    <div class="flex items-center justify-between mt-4 p-3 border-[3px] border-black bg-[var(--accent-dark)]/10 border-dashed">
-                        <span class="font-mono font-bold text-sm uppercase">Accent Hue:</span>
-                        <input type="color" bind:value={customAccentColor} class="w-10 h-10 cursor-pointer border-[3px] border-black p-0 shadow-[2px_2px_0_0_#000]" />
-                    </div>
-                {/if}
-            </div>
+
+        </div>
+    </div>
+</aside>

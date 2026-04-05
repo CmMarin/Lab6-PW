@@ -73,46 +73,46 @@
     }
 </script>
 
-<div class="fixed inset-0 z-[100] bg-background flex flex-col pt-8" in:fade out:fade>
-    
+<div class="fixed inset-0 z-[100] bg-white flex flex-col pt-8" in:fade out:fade>
+
     <!-- Header -->
-    <header class="px-6 pb-4 border-b border-border/20 flex justify-between items-center mb-6">
+    <header class="px-6 pb-4 border-b-[4px] border-black flex justify-between items-start mb-6 gap-4">
         <div>
-            <h1 class="text-3xl font-black flex items-center gap-3 text-[var(--accent)]">
-                <Calendar size=28 /> Decide Tonight's Game
+            <h1 class="text-5xl font-heading uppercase text-black drop-shadow-[2px_2px_0_var(--accent)] tracking-wide mb-2 flex items-center gap-3">
+                <Calendar size=40 strokeWidth=3 /> Decide Tonight's Game
             </h1>
-            <p class="text-text/60">Find the perfect fit for your game night.</p>
+            <p class="text-xl font-bold font-mono text-black bg-blue-300 p-1 border-2 border-black rotate-1 inline-block shadow-[2px_2px_0_var(--theme-black)]">Find the perfect fit for your game night.</p>
         </div>
-        <button class="bg-card hover:bg-red-500/10 hover:text-red-500 p-3 rounded-full transition-colors" on:click={onCancel}>
-            <X size=24 />
+        <button class="brutal-btn bg-white hover:bg-red-500 hover:text-white p-3 transition-colors text-black border-[3px] border-black shadow-[4px_4px_0_0_var(--theme-black)]" on:click={onCancel}>
+            <X size=32 strokeWidth=3 />
         </button>
     </header>
 
     <div class="flex-1 overflow-y-auto px-4 md:px-8 pb-12 flex flex-col items-center justify-start h-full">
 
         {#if step === 'filters'}
-            <div class="max-w-lg w-full bg-card p-8 rounded-2xl border border-border/20 shadow-xl" in:fly={{y: 20}}>
-                <h2 class="text-2xl font-bold mb-6">Who's playing?</h2>
-                
+            <div class="max-w-lg w-full brutal-card bg-white p-8" in:fly={{y: 20}}>
+                <h2 class="text-4xl font-heading uppercase drop-shadow-[2px_2px_0_var(--theme-black)] text-[var(--accent)] mb-8 text-center">Who's playing?</h2>
+
                 <!-- Player Filter -->
                 <div class="space-y-4 mb-8">
-                    <label class="flex items-center justify-between font-bold text-lg">
-                        <span class="flex items-center gap-2"><Users size=20 class="text-[var(--accent)]" /> Participants</span>
-                        <span class="bg-[var(--accent)] text-white px-3 py-1 rounded-lg">{filterPlayers}</span>
+                    <label class="flex flex-col sm:flex-row sm:items-center justify-between font-bold text-xl gap-2">
+                        <span class="flex items-center gap-2 uppercase tracking-wide"><Users size=24 strokeWidth=3 class="text-black" /> Participants</span>
+                        <span class="bg-[var(--accent)] text-white px-4 py-1 border-[3px] border-black shadow-[2px_2px_0_0_var(--theme-black)] font-heading text-2xl">{filterPlayers}</span>
                     </label>
-                    <input type="range" min="1" max="10" bind:value={filterPlayers} class="w-full accent-[var(--accent)]" />
+                    <input type="range" min="1" max="10" bind:value={filterPlayers} class="w-full accent-[var(--accent)] cursor-ew-resize" />
                 </div>
 
                 <!-- Time Filter -->
                 <div class="space-y-4 mb-10">
-                    <label class="flex items-center justify-between font-bold text-lg">
-                        <span class="flex items-center gap-2"><Clock size=20 class="text-[var(--accent)]" /> Max Time (mins)</span>
-                        <span class="bg-[var(--accent)] text-white px-3 py-1 rounded-lg">{filterTime}</span>
+                    <label class="flex flex-col sm:flex-row sm:items-center justify-between font-bold text-xl gap-2">
+                        <span class="flex items-center gap-2 uppercase tracking-wide"><Clock size=24 strokeWidth=3 class="text-black" /> Max Time (mins)</span>
+                        <span class="bg-[var(--accent)] text-white px-4 py-1 border-[3px] border-black shadow-[2px_2px_0_0_var(--theme-black)] font-heading text-2xl">{filterTime}</span>
                     </label>
-                    <input type="range" min="15" max="240" step="15" bind:value={filterTime} class="w-full accent-[var(--accent)]" />
+                    <input type="range" min="15" max="240" step="15" bind:value={filterTime} class="w-full accent-[var(--accent)] cursor-ew-resize" />
                 </div>
 
-                <button class="w-full bg-[var(--accent)] hover:bg-[var(--accent)]/90 text-white font-black text-xl py-4 rounded-xl shadow-lg transition-transform hover:-translate-y-1 active:scale-95" on:click={startSwiping}>
+                <button class="brutal-btn w-full bg-[var(--accent)] text-white font-heading text-3xl py-4 shadow-[8px_8px_0_0_var(--theme-black)] uppercase tracking-wider" on:click={startSwiping}>
                     Find Games →
                 </button>
             </div>
@@ -126,38 +126,38 @@
                     {#if candidateGames[currentCardIndex]}
                         {@const game = candidateGames[currentCardIndex]}
                         <!-- The Card -->
-                        <div class="bg-card w-full rounded-[2rem] shadow-2xl p-6 border-4 border-border/10 flex flex-col h-[550px] relative overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--card-bg)] opacity-80 pointer-events-none z-0 border-b"></div>
-                            
-                            <div class="h-2/3 bg-border/5 rounded-2xl w-full flex items-center justify-center relative z-10 p-2 shadow-inner mb-4 overflow-hidden border border-border/10">
+                        <div class="brutal-card w-full flex flex-col h-[550px] relative bg-white pb-6 px-6 pt-10">
+                            <div class="absolute inset-0 bg-[url('/img/pattern.svg')] opacity-5 pointer-events-none z-0 border-b-[4px] border-black"></div>
+
+                            <div class="h-2/3 w-full flex items-center justify-center relative z-10 p-2 mb-4 overflow-visible border-[4px] border-black bg-blue-50 shadow-[inset_4px_4px_0_0_var(--theme-black)]">
                                 <ThreeGameBox imageUrl={game.imageUrl} />
                             </div>
 
-                            <div class="z-10 flex flex-col text-center mt-auto pb-4 gap-2">
-                                <h3 class="text-3xl font-black font-serif leading-tight">{game.name}</h3>
-                                <p class="text-[var(--accent)] font-bold uppercase tracking-wider">{game.genre || 'Strategy'}</p>
+                            <div class="z-10 flex flex-col text-center mt-auto pb-2 gap-2 relative">
+                                <h3 class="text-4xl font-heading uppercase text-black">{game.name}</h3>
+                                <p class="font-mono text-sm font-bold bg-black text-white px-2 py-1 mx-auto uppercase tracking-widest inline-block shadow-[2px_2px_0_0_var(--accent)]">{game.genre || 'Strategy'}</p>
                             </div>
                         </div>
 
                         <!-- Controls -->
                         <div class="flex items-center justify-center gap-6 mt-8">
                             <!-- No -->
-                            <button class="w-16 h-16 rounded-full bg-background border-4 border-red-500/50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors hover:scale-110 active:scale-95 z-20" on:click={() => handleSwipe('left')} title="Skip">
-                                <X size=36 strokeWidth=3 />
+                            <button class="w-16 h-16 bg-white border-[4px] border-black text-red-500 shadow-[4px_4px_0_0_var(--theme-black)] flex items-center justify-center hover:bg-red-500 hover:text-white transition-all transform hover:-translate-y-1 hover:shadow-[6px_6px_0_0_var(--theme-black)] active:translate-y-1 active:shadow-[0_0_0_0_var(--theme-black)] z-20" on:click={() => handleSwipe('left')} title="Skip">
+                                <X size=40 strokeWidth=4 />
                             </button>
 
                             <!-- Unsure -->
-                            <button class="w-14 h-14 rounded-full bg-background border-4 border-yellow-500/50 text-yellow-500 flex items-center justify-center hover:bg-yellow-500 hover:text-white transition-colors hover:scale-110 active:scale-95 z-20" on:click={() => handleSwipe('up')} title="Unsure">
-                                <HelpCircle size=28 strokeWidth=3 />
+                            <button class="w-14 h-14 bg-white border-[4px] border-black text-yellow-500 shadow-[4px_4px_0_0_var(--theme-black)] flex items-center justify-center hover:bg-yellow-500 hover:text-white transition-all transform hover:-translate-y-1 hover:shadow-[6px_6px_0_0_var(--theme-black)] active:translate-y-1 active:shadow-[0_0_0_0_var(--theme-black)] z-20 -mt-8" on:click={() => handleSwipe('up')} title="Unsure">
+                                <HelpCircle size=32 strokeWidth=4 />
                             </button>
 
                             <!-- Yes -->
-                            <button class="w-16 h-16 rounded-full bg-background border-4 border-green-500/50 text-green-500 flex items-center justify-center hover:bg-green-500 hover:text-white transition-colors hover:scale-110 active:scale-95 z-20" on:click={() => handleSwipe('right')} title="Play it">
-                                <Check size=36 strokeWidth=3 />
+                            <button class="w-16 h-16 bg-white border-[4px] border-black text-green-500 shadow-[4px_4px_0_0_var(--theme-black)] flex items-center justify-center hover:bg-green-500 hover:text-white transition-all transform hover:-translate-y-1 hover:shadow-[6px_6px_0_0_var(--theme-black)] active:translate-y-1 active:shadow-[0_0_0_0_var(--theme-black)] z-20" on:click={() => handleSwipe('right')} title="Play it">
+                                <Check size=40 strokeWidth=4 />
                             </button>
                         </div>
-                        
-                        <div class="text-center font-bold tracking-widest text-text/30 mt-4 uppercase text-xs">
+
+                        <div class="text-center font-bold font-mono tracking-widest text-black mt-6 uppercase text-sm bg-yellow-300 px-3 py-1 border-[3px] border-black rotate-2 shadow-[2px_2px_0_0_var(--theme-black)]">
                             {currentCardIndex + 1} / {candidateGames.length}
                         </div>
                     {/if}
@@ -168,13 +168,15 @@
         <!-- RESULTS (Hearthstone style spread) -->
         {:else if step === 'results'}
             <div class="w-full max-w-6xl flex-1 flex flex-col items-center" in:scale={{start: 0.95}}>
-                <h2 class="text-4xl font-black mb-2 text-center">Your Hand</h2>
-                <p class="text-text/60 mb-10 text-center text-lg">Pick the final game from your favorites to lock it in for tonight.</p>
+                <div class="bg-[var(--accent)] text-white px-8 py-2 border-[4px] border-black shadow-[6px_6px_0_0_var(--theme-black)] -rotate-2 mb-4">
+                    <h2 class="text-5xl font-heading uppercase tracking-wide">Your Hand</h2>
+                </div>
+                <p class="text-black font-bold font-mono bg-yellow-300 px-4 py-1 border-[3px] border-black shadow-[2px_2px_0_0_var(--theme-black)] mb-10 text-center text-lg rotate-1">Pick the final game from your favorites to lock it in for tonight.</p>
 
                 {#if yesGames.length === 0 && unsureGames.length === 0}
-                    <div class="bg-card p-8 rounded-2xl text-center border-border/20 border">
-                        <p class="mb-4 text-xl">You rejected everything! Tough crowd.</p>
-                        <button class="bg-[var(--accent)] text-white px-6 py-2 rounded-lg font-bold" on:click={() => step = 'filters'}>Try again</button>
+                    <div class="brutal-card p-10 bg-red-100 text-center flex flex-col items-center">
+                        <p class="mb-6 text-2xl font-bold font-mono">You rejected everything! Tough crowd.</p>
+                        <button class="brutal-btn bg-black text-white px-8 py-3 uppercase tracking-widest text-xl shadow-[4px_4px_0_0_var(--theme-black)]" on:click={() => step = 'filters'}>Try again</button>
                     </div>
                 {:else}
                     <!-- Layout for selection -->
