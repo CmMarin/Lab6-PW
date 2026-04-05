@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { fade } from 'svelte/transition';
     import Sidebar from './components/Sidebar.svelte';
     import Home from './views/Home.svelte';
     import Manager from './views/Manager.svelte';
@@ -22,10 +23,14 @@
     <Sidebar bind:activeRoute />
     
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-bg transition-colors duration-300 relative">
-        {#if activeRoute === 'home'}
-            <Home />
-        {:else if activeRoute === 'manager'}
-            <Manager />
-        {/if}
+        {#key activeRoute}
+            <div in:fade="{{ duration: 300, delay: 100 }}" out:fade="{{ duration: 100 }}" class="absolute inset-0 w-full h-full">
+                {#if activeRoute === 'home'}
+                    <Home />
+                {:else if activeRoute === 'manager'}
+                    <Manager />
+                {/if}
+            </div>
+        {/key}
     </main>
 </div>

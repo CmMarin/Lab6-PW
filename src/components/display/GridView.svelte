@@ -1,5 +1,6 @@
 <script>
     import { Play, MapPin, Smile } from 'lucide-svelte';
+    import Meeple from '../icons/Meeple.svelte';
     export let games = [];
     export let selectedPlayerCount = 4;
     
@@ -27,7 +28,7 @@
                 <div class="flex justify-between items-start gap-4">
                     <h3 class="text-xl font-bold font-serif leading-tight">{game.name}</h3>
                     {#if game.favorite}
-                        <span class="text-red-500 scale-125 transition-transform" title="Favorite">❤️</span>
+                        <Meeple size=24 filled class="text-[var(--accent)] drop-shadow-[0_0_8px_var(--accent)] flex-shrink-0 transition-transform hover:scale-110" />
                     {/if}
                 </div>
                 

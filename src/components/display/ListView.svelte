@@ -1,5 +1,6 @@
 <script>
     import { Play, MapPin, Smile } from 'lucide-svelte';
+    import Meeple from '../icons/Meeple.svelte';
     export let games = [];
     export let selectedPlayerCount = 4;
     
@@ -24,7 +25,9 @@
             <div class="flex flex-col flex-1 gap-1">
                 <div class="flex items-center gap-3">
                     <h3 class="text-xl font-bold">{game.name}</h3>
-                    {#if game.favorite} <span class="text-red-500 text-sm">❤️</span> {/if}
+                    {#if game.favorite} 
+                        <Meeple size=18 filled class="text-[var(--accent)]" /> 
+                    {/if}
                     <span class="px-2 py-0.5 bg-[var(--accent)]/10 text-[var(--accent)] rounded text-xs font-bold uppercase">{game.genre || 'Strategy'}</span>
                 </div>
                 

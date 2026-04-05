@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { Play, MapPin, Smile } from 'lucide-svelte';
+    import Meeple from '../icons/Meeple.svelte';
     import Swiper from 'swiper';
     import { EffectCards } from 'swiper/modules';
     import 'swiper/css';
@@ -46,9 +47,11 @@
             <div class="swiper-wrapper">
                 {#each games as game}
                     <!-- Card dimensions must be explicit for Swiper Cards Effect -->
-                    <div class="swiper-slide bg-card text-text rounded-3xl shadow-2xl flex flex-col p-6 border-4 border-border/10 justify-between items-center group touch-pan-y relative overflow-hidden transition-colors">
+                    <div class="swiper-slide bg-card text-text rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] flex flex-col p-6 border-4 border-border/10 justify-between items-center group touch-pan-y relative overflow-hidden transition-colors">
                         {#if game.favorite}
-                            <div class="absolute top-4 right-4 text-3xl scale-125 transition-transform" title="Favorite">❤️</div>
+                            <div class="absolute top-4 right-4 z-20">
+                                <Meeple size=32 filled class="text-[var(--accent)] drop-shadow-[0_0_12px_var(--accent)]" />
+                            </div>
                         {/if}
                         
                         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--card-bg)] pointer-events-none opacity-50 z-0" />

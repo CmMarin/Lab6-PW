@@ -4,7 +4,7 @@ export const masterGameList = [
     {
         id: '1',
         name: 'Settlers of Catan',
-        modelUrl: '/models/catan.glb',
+        modelUrl: 'https://modelviewer.dev/shared-assets/models/shishkebab.glb',
         minPlayers: 3,
         maxPlayers: 4,
         validPlayerCounts: [3, 4],
@@ -18,7 +18,7 @@ export const masterGameList = [
     {
         id: '2',
         name: 'Monopoly',
-        modelUrl: '/models/monopoly.glb',
+        modelUrl: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
         minPlayers: 2,
         maxPlayers: 8,
         validPlayerCounts: [2, 3, 4, 5, 6, 7, 8],
@@ -32,7 +32,7 @@ export const masterGameList = [
     {
         id: '3',
         name: 'Ticket to Ride',
-        modelUrl: '/models/ticket.glb',
+        modelUrl: 'https://modelviewer.dev/shared-assets/models/glTF-Sample-Models/2.0/Duck/glTF-Binary/Duck.glb',
         minPlayers: 2,
         maxPlayers: 5,
         validPlayerCounts: [2, 3, 4, 5],
