@@ -1,10 +1,24 @@
 <script>
     import { fade } from 'svelte/transition';
     import { activeTheme } from '../store.js';
-    import { Gamepad2, Tv, Headphones, Dices, Coins, Spade, Map, Swords, Beer, Ghost, Zap, Ticket } from 'lucide-svelte';
+    import { Gamepad2, Tv, Headphones, Dices, Coins, Spade, Map, Swords, Beer, Ghost, Zap, Ticket, Skull } from 'lucide-svelte';
 </script>
 
 <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center">
+    
+    <!-- Tiled Pattern Background Elements (Slight blur, faint transparency) -->
+    <div class="absolute inset-0 z-[-1] opacity-[0.05] blur-[2px] flex flex-wrap gap-20 p-10 justify-around items-center overflow-hidden">
+        {#if $activeTheme === 'light'}
+            {#each Array(32) as _} <Gamepad2 size={80} strokeWidth={2} class="text-black"/> <Dices size={80} strokeWidth={2} class="text-black"/> {/each}
+        {:else if $activeTheme === 'dark'}
+            {#each Array(32) as _} <Coins size={80} color="gold" strokeWidth={2}/> <Skull size={80} color="white" strokeWidth={2}/> {/each}
+        {:else if $activeTheme === 'tavern'}
+            {#each Array(32) as _} <Swords size={80} strokeWidth={2} class="text-black"/> <Beer size={80} strokeWidth={2} class="text-black"/> {/each}
+        {:else if $activeTheme === 'neon'}
+            {#each Array(32) as _} <Zap size={80} strokeWidth={2} color="#00ffff"/> <Ghost size={80} strokeWidth={2} color="#ff00ff"/> {/each}
+        {/if}
+    </div>
+
     <!-- Grid container to constrain scatter items to the visible bounds safely -->
     <div class="relative w-full h-full max-w-[1400px] max-h-[1000px] mx-auto">
         {#if $activeTheme === 'light'}

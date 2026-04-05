@@ -6,6 +6,7 @@ import { toastMessage, activeTheme } from '../store.js';
 
     let isCollapsed = false;
     let currentTheme = localStorage.getItem('theme') || 'light';
+    let isThemesExpanded = true;
 
     // keep currentTheme and store synced
     $: { currentTheme = $activeTheme; }
@@ -122,22 +123,33 @@ import { toastMessage, activeTheme } from '../store.js';
         </nav>
 
         <!-- FOOTER (Themes) -->
-        <div class="p-6 border-t-[4px] border-black bg-white flex flex-col gap-4 mt-auto brutal-shadow z-20 -mx-1 -mb-1 rotate-1 relative">
-            <div class="flex items-center gap-3 text-black justify-center md:justify-start">
-                <Palette size={28} class="text-[var(--accent)]" />
-                <span class="font-display text-2xl uppercase tracking-wider {isCollapsed ? 'md:hidden' : ''}">Themes</span>
-            </div>
+        <div class="p-6 border-t-[4px] border-black bg-white flex flex-col gap-4 mt-auto brutal-shadow z-20 -mx-1 -mb-1 rotate-1 relative transition-all duration-300">
+            <button class="flex items-center gap-3 text-black justify-center md:justify-start outline-none w-full text-left cursor-pointer"
+                on:click={() => {
+                    isThemesExpanded = !isThemesExpanded;
+                    if (isCollapsed && isThemesExpanded) {
+                        isCollapsed = false;
+                    }
+                }}>
+                <Palette size={isCollapsed ? 32 : 28} class="text-[var(--accent)] flex-shrink-0 {isCollapsed ? '-ml-2' : ''}" />
+                <span class="font-display text-2xl uppercase tracking-wider {isCollapsed ? 'md:hidden' : ''} flex-1">Themes</span>
+                <span class="text-black font-bold {isCollapsed ? 'md:hidden' : ''}">
+                    {isThemesExpanded ? '▼' : '▲'}
+                </span>
+            </button>
             
-            <div class="flex flex-col gap-3 {isCollapsed ? 'md:hidden' : ''}">
-                {#each themes as theme}
-                    <button class="
-                        text-left font-mono font-bold uppercase tracking-tighter p-2 border-2 border-black transition-all
-                        {currentTheme === theme.id ? 'bg-black text-white shadow-[2px_2px_0_0_var(--accent)] translate-x-[2px] translate-y-[2px]' : 'bg-gray-100 text-black hover:bg-[var(--accent)] hover:text-white shadow-[4px_4px_0_0_var(--theme-black)]'}
-                    " on:click={() => setTheme(theme.id)}>
-                        {theme.label}
-                    </button>
-                {/each}
-
+            {#if isThemesExpanded && !isCollapsed}
+                <div class="flex flex-col gap-3 transition-opacity duration-300">
+                    {#each themes as theme}
+                        <button class="
+                            text-left font-mono font-bold uppercase tracking-tighter p-2 border-2 border-black transition-all
+                            {currentTheme === theme.id ? 'bg-black text-white shadow-[2px_2px_0_0_var(--accent)] translate-x-[2px] translate-y-[2px]' : 'bg-gray-100 text-black hover:bg-[var(--accent)] hover:text-white shadow-[4px_4px_0_0_var(--theme-black)]'}
+                        " on:click={() => setTheme(theme.id)}>
+                            {theme.label}
+                        </button>
+                    {/each}
+                </div>
+            {/if}
         </div>
     </div>
 </aside>

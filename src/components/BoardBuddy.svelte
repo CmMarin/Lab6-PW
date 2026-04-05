@@ -1,12 +1,14 @@
 <script>
     import { boardBuddyGame, boardBuddyPlayers, hallOfFame } from '../store.js';
     import { fade, scale, fly } from 'svelte/transition';
-    import { X, UserPlus, Dices, Trophy, Check, Minus, Plus } from 'lucide-svelte';
+    import { X, UserPlus, Dices, Trophy, Check, Minus, Plus, Clock } from 'lucide-svelte';
     import confetti from 'canvas-confetti';
+    import Deathclock from './Deathclock.svelte';
 
     let newPlayerName = '';
     let rolling = false;
     let turnWinnerIndex = null;
+    let showDeathclock = false;
 
     function close() {
         $boardBuddyGame = null;
@@ -56,7 +58,7 @@
             particleCount: 150,
             spread: 80,
             origin: { y: 0.6 },
-            colors: ['#000', '#fff', '#ef4444', '#facc15', '#3b82f6'] // Neo-brutalist theme colors
+            colors: ['var(--theme-black)', '#fff', '#ef4444', '#facc15', '#3b82f6'] // Neo-brutalist theme colors
         });
 
         // Save to hall of fame
@@ -178,6 +180,15 @@
                     </button>
                 </div>
 
+                <div class="mt-4">
+                    <button 
+                        class="w-full bg-cyan-400 text-black hover:bg-white hover:text-black font-display text-3xl uppercase tracking-widest py-6 border-[6px] border-black shadow-[8px_8px_0_0_black] active:translate-y-2 active:shadow-[0_0_0_0_black] transition-all flex items-center justify-center gap-4"
+                        on:click={() => showDeathclock = true}>
+                        <Clock size={36} strokeWidth={3} />
+                        DEATHCLOCK
+                    </button>
+                </div>
+
                 <!-- Game End -->
                 <div class="mt-auto">
                     <button 
@@ -193,6 +204,8 @@
             
         </div>
     </div>
+    
+    <Deathclock bind:show={showDeathclock} durationSeconds={60} />
 {/if}
 
 <style>
