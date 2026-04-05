@@ -45,12 +45,13 @@
     
     <main class="flex-1 flex flex-col overflow-hidden bg-bg transition-colors duration-300 relative">
         <!-- Mobile Header Navigation -->
-        <header class="md:hidden flex items-center justify-between p-4 border-b border-border/10 bg-card shadow-sm z-30">
-            <div class="font-bold text-xl flex items-center gap-2">
-                <span class="text-[var(--accent)] font-black text-2xl">BG</span> Organizer
+        <header class="md:hidden flex items-center justify-between p-4 border-b-[4px] border-black bg-white shadow-[0_4px_0_0_#000] z-30">
+            <div class="font-display text-4xl flex flex-col leading-none uppercase tracking-wider drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                <span class="text-black bg-[var(--accent)] px-2 border-2 border-black w-fit rotate-2 mb-1 drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">BG</span> 
+                Night
             </div>
-            <button class="p-2 rounded-lg hover:bg-text/10 transition-colors" on:click={() => isMobileOpen = true}>
-                <Menu size=24 />
+            <button class="p-2 rounded-none bg-black text-white hover:bg-[var(--accent)] border-2 border-black shadow-[2px_2px_0_#000] transition-colors" on:click={() => isMobileOpen = true}>
+                <Menu size=32 />
             </button>
         </header>
 
