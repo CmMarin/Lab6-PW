@@ -4,6 +4,11 @@
 
 Built with an unapologetic "neo-brutalist" tactile aesthetic, it leans into thick solid borders, punchy typography, physical interaction cues, and thematic flexibility.
 
+## Public Demo
+
+- Live URL: https://cmmarin.github.io/Lab6-PW/
+- Hosting: GitHub Pages (static Vite build)
+
 ## Features
 
 - **Game Manager / Inventory:** Add, remove, and sort games from a master catalog into your personal digital shelf. Includes capacity stats and graphical pie summaries. Mobile-responsive with tabbed views.
@@ -16,6 +21,46 @@ Built with an unapologetic "neo-brutalist" tactile aesthetic, it leans into thic
   - **Tavern:** RPG parchment aesthetic, wooden warm tones, perfect for D&D.
   - **Neon Arcade:** Cyan and magenta glow, dark outrun style.
 - **Local Persistence:** All application state efficiently relies on `localStorage` through Svelte stores, keeping your library saved entirely offline without the need for a database.
+
+## App Flows
+
+The following user flows are implemented client-side and cover the Lab requirements for entity manipulation (add/remove/like/filter), custom theming, and persisted browser state.
+
+### Flow 1: Build Your Library (Add/Remove)
+
+1. Open **Game Manager**.
+2. Add games from the master catalog into your personal library.
+3. Optionally add a custom game through the Add Game modal.
+4. Remove games from your library at any time.
+5. Changes are persisted in `localStorage` and survive refresh.
+
+### Flow 2: Browse and Filter (Filter)
+
+1. Open **My Library** (Home).
+2. Choose player count, genre, and optional favorites-only toggle in the filter bar.
+3. Switch between Grid, List, and Shelf views.
+4. The game list reacts instantly to active filters.
+
+### Flow 3: Mark Favorites (Like)
+
+1. Open a game details modal from any view.
+2. Toggle the Favorite action.
+3. Favorite state updates the entity and appears in favorite indicators across views.
+4. Favorite-only filtering uses this persisted flag.
+
+### Flow 4: Decide Tonight's Game
+
+1. Open **Find Tonight's Game**.
+2. Configure filters (players, time, vibe/location constraints).
+3. Swipe/choose candidates and finalize a game.
+4. Add selected games to tonight's rotation and launch setup flow.
+
+### Flow 5: Theme and Personalization
+
+1. Open the sidebar **Themes** section.
+2. Switch between Light, Dark, Tavern, and Neon Arcade themes.
+3. Theme is applied instantly using CSS variables and persisted in browser storage.
+4. In Settings, choose favorite indicator icon (Meeple or D20), also persisted.
 
 ## Tech Stack
 
