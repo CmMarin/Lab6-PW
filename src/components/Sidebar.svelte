@@ -40,7 +40,7 @@ import { toastMessage, activeTheme } from '../store.js';
     fixed md:relative left-0 top-0 w-[85vw] sm:w-[60vw] 
     bg-[var(--card-bg)] text-black h-full transition-all duration-300 flex flex-col justify-between 
     brutal-border brutal-shadow-lg z-50
-    before:absolute before:inset-0 before:bg-[url('https://www.transparenttextures.com/patterns/cardboard.png')] before:opacity-[0.1] before:pointer-events-none
+    before:absolute before:inset-0 before:bg-[url('/textures/cardboard.png')] before:opacity-[0.1] before:pointer-events-none
 ">
     <div class="relative z-10 flex flex-col h-full bg-white/40">
         <!-- HEADER -->

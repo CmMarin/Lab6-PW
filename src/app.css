@@ -85,6 +85,13 @@
     --accent-dark: #b30033;
     --border-color: #000000;
     --font-display: 'Bangers', cursive;
+    --library-title-color: #000000;
+    --library-symbol-color: var(--accent);
+    --library-subtext-color: #4a4a4a;
+    --icon-toggle-bg: #ffffff;
+    --icon-toggle-text: #000000;
+    --icon-toggle-active-bg: var(--accent);
+    --icon-toggle-active-text: #ffffff;
     --bg-pattern: radial-gradient(#000000 2px, transparent 2px);
     background-size: 20px 20px;
     background-position: 0 0;
@@ -111,6 +118,13 @@
     --accent-dark: #b72a35;
     --border-color: #080a0c;
     --font-display: 'Righteous', cursive;
+    --library-title-color: #f8fafc;
+    --library-symbol-color: #ef4444;
+    --library-subtext-color: #94a3b8;
+    --icon-toggle-bg: #9ca3af;
+    --icon-toggle-text: #ef4444;
+    --icon-toggle-active-bg: #ef4444;
+    --icon-toggle-active-text: #ffffff;
     --bg-pattern: radial-gradient(rgba(255,255,255,0.03) 2px, transparent 2px);
     background-size: 30px 30px;
     background-position: 0 0;
@@ -135,10 +149,18 @@
     --accent-dark: #3e0b06;
     --border-color: #4a3b2c;
     --font-display: 'Fraunces', serif;
-    --bg-pattern: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    --library-title-color: #3b2a1a;
+    --library-symbol-color: #6f1c10;
+    --library-subtext-color: #6b503a;
+    --icon-toggle-bg: #e6d3bd;
+    --icon-toggle-text: #3b2a1a;
+    --icon-toggle-active-bg: #6f1c10;
+    --icon-toggle-active-text: #f8ecdd;
+    --bg-pattern: url('/textures/paper-2.png');
   }
 
   /* Neon Arcade */
+  [data-theme="arcade"],
   [data-theme="neon"] {
     --bg-color: #0d001a;
     --text-color: #00ffff;
@@ -157,6 +179,13 @@
     --accent-dark: #800080;
     --border-color: #00ffff;
     --font-display: 'Righteous', cursive;
+    --library-title-color: #00ffff;
+    --library-symbol-color: #00ffff;
+    --library-subtext-color: #00ffff;
+    --icon-toggle-bg: #000000;
+    --icon-toggle-text: #00ffff;
+    --icon-toggle-active-bg: #00ffff;
+    --icon-toggle-active-text: #000000;
     --bg-pattern: 
       linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, 0.1) 25%, rgba(0, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.1) 75%, rgba(0, 255, 255, 0.1) 76%, transparent 77%, transparent), 
       linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, 0.1) 25%, rgba(0, 255, 255, 0.1) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.1) 75%, rgba(0, 255, 255, 0.1) 76%, transparent 77%, transparent);

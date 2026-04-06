@@ -72,21 +72,21 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                  <h3 class="font-bold font-mono text-xl uppercase bg-black text-white inline-block px-2 py-1 mb-2 shadow-[2px_2px_0_0_var(--accent)]">Favorite Indicator Icon</h3>
-                 <p class="text-black font-bold">Choose which icon appears for games marked as favorites.</p>
+                 <p class="text-[var(--library-subtext-color)] font-bold">Choose which icon appears for games marked as favorites.</p>
             </div>
 
-            <div class="flex items-center gap-2 bg-gray-200 p-2 border-[3px] border-black shadow-[4px_4px_0_0_var(--theme-black)]">
+            <div class="flex items-center gap-2 bg-[var(--icon-toggle-bg)] p-2 border-[3px] border-black shadow-[4px_4px_0_0_var(--theme-black)]">
                 <button
-                    class="px-4 py-2 border-[3px] border-black flex items-center gap-2 transition-transform hover:-translate-y-1 {$settings.favoriteIcon === 'meeple' ? 'bg-[var(--accent)] text-white shadow-[2px_2px_0_0_var(--theme-black)]' : 'bg-white text-black'}"
+                    class="px-4 py-2 border-[3px] border-black flex items-center gap-2 transition-transform hover:-translate-y-1 {$settings.favoriteIcon === 'meeple' ? 'bg-[var(--icon-toggle-active-bg)] text-[var(--icon-toggle-active-text)] shadow-[2px_2px_0_0_var(--theme-black)]' : 'bg-[var(--icon-toggle-bg)] text-[var(--icon-toggle-text)] hover:bg-[var(--icon-toggle-text)] hover:text-[var(--icon-toggle-bg)]'}"
                     on:click={() => handleIconChange('meeple')}
                 >
                     <Meeple size=24 filled={$settings.favoriteIcon === 'meeple'} /> Meeple
                 </button>
                 <button
-                     class="px-4 py-2 border-[3px] border-black flex items-center gap-2 transition-transform hover:-translate-y-1 {$settings.favoriteIcon === 'd20' ? 'bg-[var(--accent)] text-white shadow-[2px_2px_0_0_var(--theme-black)]' : 'bg-white text-black'}"
+                     class="px-4 py-2 border-[3px] border-black flex items-center gap-2 transition-transform hover:-translate-y-1 {$settings.favoriteIcon === 'd20' ? 'bg-[var(--icon-toggle-active-bg)] text-[var(--icon-toggle-active-text)] shadow-[2px_2px_0_0_var(--theme-black)]' : 'bg-[var(--icon-toggle-bg)] text-[var(--icon-toggle-text)] hover:bg-[var(--icon-toggle-text)] hover:text-[var(--icon-toggle-bg)]'}"
                      on:click={() => handleIconChange('d20')}
                 >
-                    <D20 size=24 className={$settings.favoriteIcon === 'd20' ? 'text-white' : 'text-black'} /> D20
+                    <D20 size=24 /> D20
                 </button>
             </div>
         </div>

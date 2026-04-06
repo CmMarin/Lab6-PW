@@ -71,15 +71,15 @@
 
             <!-- TITLE & STATS -->
             <div class="flex flex-col items-center text-center gap-1 z-20">
-                <h3 class="text-[1.8rem] font-display leading-[1.1] text-black uppercase decoration-4 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+                <h3 class="text-[1.8rem] font-display leading-[1.1] text-[var(--library-title-color)] uppercase decoration-4 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
                     {game.name}
                 </h3>
                 <div class="flex items-center gap-2 mt-3 flex-wrap justify-center">
                     <span class="game-stat shadow-[3px_3px_0_var(--theme-black)] bg-black text-white flex items-center gap-1 font-bold">
-                        <Users size=14 class="text-[var(--accent)]" /> {game.minPlayers}-{game.maxPlayers}
+                        <Users size=14 class="text-[var(--library-symbol-color)]" /> {game.minPlayers}-{game.maxPlayers}
                     </span>
                     <span class="game-stat shadow-[3px_3px_0_var(--theme-black)] flex items-center gap-1 bg-white text-black font-bold">
-                        <Play size=14 class="text-[var(--accent)]" /> {getEstimatedTime(game)}
+                        <Play size=14 class="text-[var(--library-symbol-color)]" /> {getEstimatedTime(game)}
                     </span>
                 </div>
             </div>
@@ -89,17 +89,17 @@
                 <div class="grid grid-cols-3 gap-2 mt-4 pt-4 border-t-[3px] border-black text-center text-xs uppercase font-bold">
                     
                     <div class="flex flex-col items-center gap-1">
-                        <MapPin size=18 class="text-black" /> 
+                        <MapPin size=18 class="text-[var(--library-symbol-color)]" /> 
                         <span class="bg-[var(--accent-dark)] text-white px-2 py-0.5 shadow-[2px_2px_0_var(--theme-black)] border-2 border-black w-full line-clamp-1">{game.location}</span>
                     </div>
                     
                     <div class="flex flex-col items-center gap-1 relative border-x-[3px] border-black px-1">
-                        <Star size=18 class="text-black" /> 
+                        <Star size=18 class="text-[var(--library-symbol-color)]" /> 
                         <span class="w-full line-clamp-1 py-0.5 group-hover:underline">{game.setupDifficulty}</span>
                     </div>
                     
                     <div class="flex flex-col items-center gap-1">
-                        <Smile size=18 class="text-black" /> 
+                        <Smile size=18 class="text-[var(--library-symbol-color)]" /> 
                         <span class="bg-[var(--accent)] text-white px-2 py-0.5 shadow-[2px_2px_0_var(--theme-black)] border-2 border-black w-full line-clamp-1">{game.vibe}</span>
                     </div>
                     
