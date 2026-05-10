@@ -1,4 +1,15 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
+
+export const apiConnected = writable(false);
+
+const initialToken = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
+export const tokenStore = writable(initialToken);
+
+const initialRole = typeof window !== 'undefined' ? sessionStorage.getItem('role') : null;
+export const roleStore = writable(initialRole);
+
+export const canWrite = derived(roleStore, $role => $role === 'ADMIN' || $role === 'WRITER');
+export const canAdmin = derived(roleStore, $role => $role === 'ADMIN');
 
 export const masterGameList = [
     {

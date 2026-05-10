@@ -1,6 +1,7 @@
 <script>
     import { Settings, Home, LayoutList, Palette, ChevronLeft, ChevronRight, X, Dices } from 'lucide-svelte';
-import { toastMessage, activeTheme } from '../store.js';
+import { toastMessage, activeTheme, apiConnected } from '../store.js';
+
     export let activeRoute = 'home';
     export let isMobileOpen = false;
 
