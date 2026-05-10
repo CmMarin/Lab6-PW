@@ -1,10 +1,11 @@
 <script>
     import { fade, scale } from 'svelte/transition';
-    import { selectedGameDetail, settings, setupAssistantGame, tonightsRotation, userLibrary, toastMessage } from '../store.js';
-    import { X, Clock, Users, MapPin, Smile, Flame, Tags, PlusCircle, Star, Heart } from 'lucide-svelte';
+    import { selectedGameDetail, settings, setupAssistantGame, tonightsRotation, userLibrary, toastMessage, canWrite } from '../store.js';
+    import { X, Clock, Users, MapPin, Smile, Flame, Tags, PlusCircle, Star, Heart, Lock } from 'lucide-svelte';
     import ThreeGameBox from './icons/ThreeGameBox.svelte';
     import Meeple from './icons/Meeple.svelte';
     import D20 from './icons/D20.svelte';
+    import { updateGame } from '../api.js';
 
     function close() {
         $selectedGameDetail = null;
@@ -17,18 +18,33 @@
         }
     }
 
-    function toggleFavorite() {
+    async function toggleFavorite() {
         if ($selectedGameDetail) {
-            $selectedGameDetail = { ...$selectedGameDetail, favorite: !$selectedGameDetail.favorite };
+            const newFavStatus = !$selectedGameDetail.favorite;
             
-            // Update library
-            $userLibrary = $userLibrary.map(g => {
-                if (g.id === $selectedGameDetail.id) {
-                    return { ...g, favorite: $selectedGameDetail.favorite };
+            try {
+                // If it's a backend game (has numeric ID)
+                if (typeof $selectedGameDetail.id === 'number') {
+                    await updateGame($selectedGameDetail.id, {
+                        ...$selectedGameDetail,
+                        isFavorite: newFavStatus ? 1 : 0
+                    });
                 }
-                return g;
-            });
-            $toastMessage = $selectedGameDetail.favorite ? "Added to Favorites!" : "Removed from Favorites.";
+                
+                $selectedGameDetail = { ...$selectedGameDetail, favorite: newFavStatus };
+                
+                // Update library
+                $userLibrary = $userLibrary.map(g => {
+                    if (g.id === $selectedGameDetail.id) {
+                        return { ...g, favorite: newFavStatus };
+                    }
+                    return g;
+                });
+                $toastMessage = newFavStatus ? "Added to Favorites!" : "Removed from Favorites.";
+            } catch(e) {
+                $toastMessage = "Error updating favorite status";
+                console.error(e);
+            }
         }
     }
 
@@ -146,13 +162,24 @@
                         >
                             <PlusCircle strokeWidth=3 size=24 /> ADD TO TODAYS SESSION
                         </button>
-                        <button 
-                            class="flex-1 bg-[var(--card-bg)] text-[var(--panel-text)] hover:bg-[var(--card-bg-2)] font-heading text-2xl tracking-widest uppercase py-3 border-[4px] border-black shadow-[4px_4px_0_0_black] transition-[box-shadow,transform] active:translate-y-1 active:shadow-[0px_0px_0_0_black] flex items-center justify-center gap-2 transform rotate-1"
-                            on:click={toggleFavorite}
-                        >
-                            <Heart class="{$selectedGameDetail.favorite ? 'fill-red-500 text-red-500' : 'text-[var(--panel-text)]'}" strokeWidth=3 size=24 /> 
-                            {$selectedGameDetail.favorite ? 'FAVORITED' : 'FAVORITE'}
-                        </button>
+                        {#if $canWrite}
+                            <button 
+                                class="flex-1 bg-[var(--card-bg)] text-[var(--panel-text)] hover:bg-[var(--card-bg-2)] font-heading text-2xl tracking-widest uppercase py-3 border-[4px] border-black shadow-[4px_4px_0_0_black] transition-[box-shadow,transform] active:translate-y-1 active:shadow-[0px_0px_0_0_black] flex items-center justify-center gap-2 transform rotate-1"
+                                on:click={toggleFavorite}
+                            >
+                                <Heart class="{$selectedGameDetail.favorite ? 'fill-red-500 text-red-500' : 'text-[var(--panel-text)]'}" strokeWidth=3 size=24 /> 
+                                {$selectedGameDetail.favorite ? 'FAVORITED' : 'FAVORITE'}
+                            </button>
+                        {:else}
+                            <button 
+                                class="flex-1 bg-gray-300 text-gray-500 font-heading text-2xl tracking-widest uppercase py-3 border-[4px] border-black shadow-[4px_4px_0_0_black] cursor-not-allowed flex items-center justify-center gap-2 transform rotate-1"
+                                disabled
+                                title="Login as Writer or Admin to save favorites"
+                            >
+                                <Heart class="text-gray-500" strokeWidth=3 size=24 /> 
+                                LOCKED
+                            </button>
+                        {/if}
                     </div>
 
                     <button 

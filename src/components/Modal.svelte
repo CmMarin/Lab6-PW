@@ -1,11 +1,11 @@
 <script>
     import { X, Clock, Camera } from 'lucide-svelte';
-    import { userLibrary, toastMessage } from '../store.js';
+    import { userLibrary, toastMessage, canWrite } from '../store.js';
+    import { createGame } from '../api.js';
 
     export let show = false;
 
     let newGame = {
-        id: crypto.randomUUID(),
         name: '',
         imageUrl: '',
         minPlayers: 2,
@@ -33,7 +33,12 @@
         }
     }
 
-    function processCustomGame() {
+    async function processCustomGame() {
+        if (!$canWrite) {
+            $toastMessage = "❌ You don't have permission to create games.";
+            return;
+        }
+
         if (!newGame.name.trim()) {
             $toastMessage = "❌ Game name is required!";
             return;
@@ -44,9 +49,32 @@
             return;
         }
 
-        $userLibrary = [...$userLibrary, { ...newGame }];
-        $toastMessage = `${newGame.name} saved to library!`;
-        closeModal();
+        try {
+            const minAllowed = Math.min(...newGame.validPlayerCounts);
+            const maxAllowed = Math.max(...newGame.validPlayerCounts);
+
+            const payload = {
+                title: newGame.name,
+                isFavorite: newGame.favorite ? 1 : 0,
+                minPlayers: minAllowed,
+                maxPlayers: maxAllowed,
+            };
+
+            const created = await createGame(payload);
+            
+            // Add to library locally for immediate feedback
+            $userLibrary = [...$userLibrary, { 
+                ...newGame, 
+                id: created.id || crypto.randomUUID(), 
+                name: payload.title,
+                minPlayers: payload.minPlayers,
+                maxPlayers: payload.maxPlayers,
+            }];
+            $toastMessage = `${newGame.name} saved to API!`;
+            closeModal();
+        } catch (e) {
+            $toastMessage = `❌ Failed to create game: ${e.message}`;
+        }
     }
 
     function closeModal() {
