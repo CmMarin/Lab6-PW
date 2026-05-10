@@ -72,7 +72,32 @@ The following user flows are implemented client-side and cover the Lab requireme
 
 ## Getting Started
 
-1. Clone or download the repository.
+### Prerequisites
+
+To run the full stack, you will need two terminal windows.
+
+### Running Lab 7 Backend
+
+The application now features a full REST API backend powered by Fastify, SQLite, and JWT.
+
+1. Navigate to the `server/` directory:
+   ```bash
+   cd server
+   ```
+2. Install the backend dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file (you can copy `server.env.example` to the project root with your JWT keys).
+4. Start the server (runs on `http://localhost:3000`):
+   ```bash
+   npm run dev
+   ```
+5. You can view the interactive auto-generated Swagger documentation at `http://localhost:3000/docs`.
+
+### Running the Frontend
+
+1. Open a new terminal at the project root.
 2. Install dependencies:
    ```bash
    npm install

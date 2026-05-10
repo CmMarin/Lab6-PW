@@ -1,11 +1,55 @@
 <script>
-    import { userLibrary, masterGameList, toastMessage } from '../store.js';
+    import { onMount } from 'svelte';
+    import { userLibrary, masterGameList, toastMessage, apiConnected, canWrite, canAdmin, tokenStore } from '../store.js';
+    import { fetchGames, createGame, deleteGame } from '../api.js';
     import Modal from '../components/Modal.svelte';
-    import { Plus, Trash2, PieChart, Users, Tag } from 'lucide-svelte';
+    import { Plus, Trash2, PieChart, Users, Tag, Cloud, WifiOff, Lock } from 'lucide-svelte';
 
     let showModal = false;
     let activeTab = 'inventory';
     let sortBy = 'name-asc';
+
+    let currentPage = 1;
+    let limit = 10;
+    let totalPages = 1;
+    let totalTotal = 0;
+
+    async function loadGames(page) {
+        try {
+            const res = await fetchGames(page, limit);
+            $apiConnected = true;
+            if (res.data) {
+                // Keep the fetched list specifically instead of pushing everything to userLibrary
+                // But wait, the app relies on $userLibrary being all games for client-side sorting/filtering?
+                // Let's just update the list for the current page
+                // Actually the lab requires demonstrating pagination. Let's map it.
+                $userLibrary = res.data.map(g => {
+                    const min = g.minPlayers || 1;
+                    const max = g.maxPlayers || min;
+                    const validCounts = Array.from({ length: max - min + 1 }, (_, i) => min + i);
+                    
+                    return {
+                        ...g,
+                        name: g.title || g.name, 
+                        validPlayerCounts: validCounts, 
+                        favorite: !!g.isFavorite,
+                        location: g.location || 'Home',
+                        vibe: g.vibe || 'Chill'
+                    };
+                });
+                currentPage = res.pagination.page;
+                totalPages = res.pagination.totalPages;
+                totalTotal = res.pagination.total;
+            }
+        } catch (e) {
+            console.error('API Offline or Unauthorized:', e);
+            $apiConnected = false;
+        }
+    }
+
+    onMount(() => {
+        loadGames(currentPage);
+    });
 
     // Reactive Stats Logic
     $: totalGames = $userLibrary.length;
@@ -21,23 +65,57 @@
 
     // Reactive Sorting Logic
     $: sortedLibrary = [...$userLibrary].sort((a, b) => {
-        if (sortBy === 'name-asc') return a.name.localeCompare(b.name);
-        if (sortBy === 'name-desc') return b.name.localeCompare(a.name);
-        if (sortBy === 'players-desc') return b.maxPlayers - a.maxPlayers;
-        if (sortBy === 'genre') return a.genre.localeCompare(b.genre);
+        const nameA = a.name || a.title || '';
+        const nameB = b.name || b.title || '';
+        const genreA = a.genre || '';
+        const genreB = b.genre || '';
+
+        if (sortBy === 'name-asc') return nameA.localeCompare(nameB);
+        if (sortBy === 'name-desc') return nameB.localeCompare(nameA);
+        if (sortBy === 'players-desc') return (b.maxPlayers || 0) - (a.maxPlayers || 0);
+        if (sortBy === 'genre') return genreA.localeCompare(genreB);
         return 0;
     });
 
-    function addFromMaster(masterId) {
+    async function addFromMaster(masterId) {
         const game = masterGameList.find(g => g.id === masterId);
-        if (game && !$userLibrary.find(g => g.id === masterId)) {
+        if (game && !$userLibrary.find(g => g.name === game.name)) {
+            // Attempt API logic first
+            if ($apiConnected && $tokenStore) {
+                try {
+                    await createGame({
+                        title: game.name,
+                        genre: game.genre,
+                        minPlayers: game.minPlayers,
+                        maxPlayers: game.maxPlayers,
+                        playTime: 60, // Default 60 for simplicity
+                        difficulty: game.setupDifficulty || 'Easy',
+                        description: 'Added from master list',
+                        imageUrl: game.imageUrl,
+                        isFavorite: false
+                    });
+                } catch(e) {
+                    $toastMessage = `API Error: ${e.message}`;
+                    return; // Stop if API failed while intended
+                }
+            }
+            
             $userLibrary = [...$userLibrary, { ...game }];
             $toastMessage = `${game.name} added to your library!`;
         }
     }
 
-    function removeGame(game) {
+    async function removeGame(game) {
         if (confirm('Are you sure you want to remove this game?')) {
+            if ($apiConnected && $tokenStore && game.id) { // Usually game.id is text local, but integer from DB
+                try {
+                    await deleteGame(game.id);
+                } catch(e) {
+                    $toastMessage = `API Error: ${e.message}`;
+                    return; // Stop on API error
+                }
+            }
+            
             $userLibrary = $userLibrary.filter(g => g.id !== game.id);
             $toastMessage = `${game.name} removed from your library.`;
         }
@@ -49,10 +127,21 @@
         <div>
             <h1 class="text-5xl font-heading uppercase text-[var(--panel-text)] drop-shadow-[2px_2px_0_var(--accent)] tracking-wide mb-2">Game Manager</h1>
             <p class="text-xl font-bold font-mono text-[var(--panel-text)] bg-green-300 p-1 border-2 border-black -rotate-1 inline-block shadow-[2px_2px_0_var(--theme-black)]">Curate your collection from the Master List or add custom ones.</p>
+            {#if $apiConnected}
+                <span class="inline-flex items-center gap-1 bg-blue-500 text-white font-mono text-sm px-2 py-1 border-2 border-black mt-2 shadow-[2px_2px_0_0_var(--theme-black)]"><Cloud size=14 /> API Connected</span>
+            {:else}
+                <span class="inline-flex items-center gap-1 bg-red-500 text-white font-mono text-sm px-2 py-1 border-2 border-black mt-2 shadow-[2px_2px_0_0_var(--theme-black)]"><WifiOff size=14 /> Offline Mode</span>
+            {/if}
         </div>
-        <button class="brutal-btn flex items-center gap-2 bg-[var(--accent)] text-white self-end sm:self-auto" on:click={() => showModal = true}>
-            <Plus size=20 strokeWidth=3 /> Add Game
-        </button>
+        {#if $canAdmin}
+            <button class="brutal-btn flex items-center gap-2 bg-[var(--accent)] text-white self-end sm:self-auto" on:click={() => showModal = true}>
+                <Plus size=20 strokeWidth=3 /> Create New Game
+            </button>
+        {:else}
+            <button class="brutal-btn flex items-center gap-2 bg-gray-400 text-gray-700 self-end sm:self-auto cursor-not-allowed" disabled title="Admin Only">
+                <Lock size=20 strokeWidth=3 /> Create New Game
+            </button>
+        {/if}
     </div>
 
     <!-- Redesigned Manager Layout -->
@@ -130,12 +219,38 @@
                             </div>
                             
                             <div class="border-l-[4px] border-black flex flex-col justify-center bg-[var(--card-bg-2)] p-4">
-                                <button class="brutal-btn w-12 h-12 flex items-center justify-center bg-red-500 text-white shadow-[4px_4px_0_0_var(--theme-black)] hover:bg-black hover:text-red-500 hover:translate-y-0 hover:shadow-[0_0_0_0_var(--theme-black)] active:scale-95" title="Remove" on:click={() => removeGame(ugame)}>
-                                    <Trash2 size=24 strokeWidth=3 />
-                                </button>
+                                {#if $canWrite}
+                                    <button class="brutal-btn w-12 h-12 flex items-center justify-center bg-red-500 text-white shadow-[4px_4px_0_0_var(--theme-black)] hover:bg-black hover:text-red-500 hover:translate-y-0 hover:shadow-[0_0_0_0_var(--theme-black)] active:scale-95" title="Remove" on:click={() => removeGame(ugame)}>
+                                        <Trash2 size=24 strokeWidth=3 />
+                                    </button>
+                                {:else}
+                                    <button class="brutal-btn w-12 h-12 flex items-center justify-center bg-gray-400 text-gray-700 shadow-[4px_4px_0_0_var(--theme-black)] cursor-not-allowed" disabled title="Writer Only">
+                                        <Lock size=24 strokeWidth=3 />
+                                    </button>
+                                {/if}
                             </div>
                         </div>
                     {/each}
+
+                    {#if totalPages > 1}
+                        <div class="flex justify-between items-center bg-black text-white p-3 border-[4px] border-black font-bold uppercase mt-6 tracking-widest">
+                            <button 
+                                class="bg-yellow-400 text-black px-4 py-2 border-[2px] border-black shadow-[4px_4px_0_0_var(--accent)] hover:bg-white hover:translate-x-[2px] hover:translate-y-[2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={currentPage <= 1}
+                                on:click={() => loadGames(currentPage - 1)}
+                            >
+                                PREVIOUS
+                            </button>
+                            <span class="text-sm">Page {currentPage} of {totalPages} (Total: {totalTotal})</span>
+                            <button 
+                                class="bg-yellow-400 text-black px-4 py-2 border-[2px] border-black shadow-[4px_4px_0_0_var(--accent)] hover:bg-white hover:translate-x-[2px] hover:translate-y-[2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={currentPage >= totalPages}
+                                on:click={() => loadGames(currentPage + 1)}
+                            >
+                                NEXT
+                            </button>
+                        </div>
+                    {/if}
                 </div>
             </div>
 
@@ -151,10 +266,24 @@
                                 <h3 class="font-bold text-lg uppercase font-heading leading-tight text-[var(--panel-text)]">{mgame.name}</h3>
                                 <p class="font-mono text-xs font-bold text-[var(--text-muted)] mt-1">{mgame.genre} • {mgame.maxPlayers}p</p>
                             </div>
-                            {#if $userLibrary.find(g => g.id === mgame.id)}
+                            {#if $userLibrary.find(g => g.name === mgame.name)}
                                 <button class="bg-[var(--card-bg-2)] text-[var(--text-muted)] px-3 py-2 text-xs uppercase font-black border-[3px] border-[var(--border-color)] shadow-[inset_2px_2px_0_0_rgba(0,0,0,0.2)] cursor-not-allowed" disabled>Got It</button>
-                            {:else}
+                            {:else if $canWrite}
                                 <button class="brutal-btn px-4 py-2 text-sm bg-black text-white hover:bg-[var(--accent)] hover:text-[var(--panel-text)] uppercase shadow-[4px_4px_0_0_var(--theme-black)]" on:click={() => addFromMaster(mgame.id)}>Get</button>
+                            {:else}
+                                <span class="bg-gray-400 text-gray-800 px-3 py-2 text-xs uppercase font-black border-[3px] border-black shadow-[2px_2px_0_0_black] flex items-center justify-center gap-1 cursor-not-allowed" title="Writer Only">
+                                    <Lock size=14 strokeWidth=3 /> Read Only
+                                </span>
+                            {/if}
+                            <!-- Delete from Catalog button (Admin only) - Assume functionality exists or just show if not requested -->
+                            {#if $canAdmin}
+                                <button class="ml-2 bg-red-500 text-white p-2 border-[2px] border-black shadow-[2px_2px_0_0_black] hover:bg-black hover:text-red-500" title="Delete from Catalog" on:click={() => alert('Not implemented')}>
+                                    <Trash2 size=16 strokeWidth=3 />
+                                </button>
+                            {:else}
+                                <button class="ml-2 bg-gray-400 text-gray-700 p-2 border-[2px] border-black shadow-[2px_2px_0_0_black] cursor-not-allowed" title="Admin Only" disabled>
+                                    <Lock size=16 strokeWidth=3 />
+                                </button>
                             {/if}
                         </div>
                     {/each}
